@@ -8,7 +8,7 @@ app.use(cors());
 
 var http = require("http");
 const PORT = process.env.PORT || 3005;
-const router = require("../server/router");
+const router = require("./router");
 
 var bodyParser = require("body-parser");
 
@@ -16,6 +16,9 @@ const server = http.createServer(app);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+var routes = require("./api/routes/bankRoutes"); //importing routes
+routes(app); //register the routes
 
 app.use(router);
 
