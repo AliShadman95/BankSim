@@ -22,10 +22,10 @@ exports.list_all_accounts_bank = async (req, res) => {
     let bankName = req.params.bankName;
     let accData = await db.any(
       `SELECT a."accountNumber",a.balance,p.name "personName"
-           FROM "Account" as a
-           INNER JOIN "Person" as p ON p.id = a."personId"
-           INNER JOIN "Bank" as b ON b.id = a."bankId"
-           WHERE b.name = '${bankName}';`
+        FROM "Account" as a
+        INNER JOIN "Person" as p ON p.id = a."personId"
+        INNER JOIN "Bank" as b ON b.id = a."bankId"
+        WHERE b.name = '${bankName}';`
     );
     if (accData.length == 0) return res.send("Bank not found");
     res.send(accData);
@@ -41,9 +41,9 @@ exports.create_an_account = async (req, res) => {
     //Checking if a person have 2 accounts on a bank
     let acc = await db.any(
       `SELECT COUNT(*) FROM "Account" as a
-    INNER JOIN "Bank" as b
-    ON b.id = a."bankId" AND b.name = '${bankName}'
-    INNER JOIN "Person" as p ON p.id = a."personId" AND p.name = '${personName}'`
+       INNER JOIN "Bank" as b
+       ON b.id = a."bankId" AND b.name = '${bankName}'
+       INNER JOIN "Person" as p ON p.id = a."personId" AND p.name = '${personName}'`
     );
 
     if (acc[0].count >= 2)
