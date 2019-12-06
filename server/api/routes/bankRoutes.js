@@ -18,6 +18,9 @@ module.exports = app => {
     .delete(bank.delete_an_account);
   app.route("/account/deposit/:accountNumber/:fee").put(bank.deposit_money);
   app.route("/account/withdraw/:accountNumber/:fee").put(bank.withdraw_money);
+  app
+    .route("/account/transfer/:accountFrom/:accountTo/:fee")
+    .put(bank.transfer_money);
 
   /* app.route("/messages/latest/:roomName").get(chat.get_latest_by_room);
   app.route("/messages/search/:searchValue").get(chat.search_messages_by_text);

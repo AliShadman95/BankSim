@@ -2,6 +2,7 @@
 const pgp = require("pg-promise")(/*options*/);
 const cn = process.env.DATABASE_URL;
 const db = pgp(cn); // database instance;
+const moment = require("moment");
 
 exports.list_all_banks = async (req, res) => {
   try {
@@ -162,6 +163,18 @@ exports.deposit_money = async (req, res) => {
        WHERE "accountNumber" = '${accountNumber}';`
     );
 
+    //Inserting in transactions tables
+    const tTypeData = await db.any(
+      `INSERT INTO "TransactionType"("Code") VALUES ('deposit') RETURNING id ;`
+    );
+    await db.any(
+      `INSERT INTO "Transaction"
+     ("TransactionTime","Amount","AccountFromId","TransactionTypeId")
+      VALUES ('${moment().format()}','${fee}',(SELECT id FROM "Account"
+      WHERE "accountNumber" = '${accountNumber}'),
+     '${tTypeData[0].id}');`
+    );
+
     res.send("Money succesfuly deposited!");
   } catch (error) {
     console.log(error);
@@ -179,14 +192,69 @@ exports.withdraw_money = async (req, res) => {
       `SELECT balance FROM "Account" 
        WHERE "accountNumber" = '${accountNumber}';`
     );
-    if (fee > balance[0].balance) return res.send("Insufficent money!");
+    if (fee > parseInt(balance[0].balance.toString().substr(1)))
+      return res.send("Insufficent money!");
 
     await db.any(
       `UPDATE "Account" SET balance = balance - '${fee}'
        WHERE "accountNumber" = '${accountNumber}';`
     );
+    //Inserting in transactions tables
+    const tTypeData = await db.any(
+      `INSERT INTO "TransactionType"("Code") VALUES ('withdraw') RETURNING id ;`
+    );
+    await db.any(
+      `INSERT INTO "Transaction"
+     ("TransactionTime","Amount","AccountFromId","TransactionTypeId")
+      VALUES ('${moment().format()}','${fee}',(SELECT id FROM "Account"
+      WHERE "accountNumber" = '${accountNumber}'),
+     '${tTypeData[0].id}');`
+    );
 
     res.send("Money succesfuly withdrawn!");
+  } catch (error) {
+    console.log(error);
+    res.send(error);
+  }
+};
+exports.transfer_money = async (req, res) => {
+  try {
+    let fee = req.params.fee;
+    let accountFrom = req.params.accountFrom;
+    let accountTo = req.params.accountTo;
+    console.log(fee);
+    //Check if fee isnt bigger than current balance
+    let balance = await db.any(
+      `SELECT balance FROM "Account" 
+       WHERE "accountNumber" = '${accountFrom}';`
+    );
+
+    if (fee > parseInt(balance[0].balance.toString().substr(1)))
+      return res.send("Insufficent money!");
+
+    await db.any(
+      `UPDATE "Account" SET balance = CASE
+       WHEN "accountNumber" = '${accountFrom}' THEN balance - '${fee}'
+       WHEN "accountNumber" = '${accountTo}' THEN balance + '${fee}'
+       END
+       WHERE "accountNumber" IN ('${accountFrom}','${accountTo}' );`
+    );
+
+    //Inserting in transactions tables
+    const tTypeData = await db.any(
+      `INSERT INTO "TransactionType"("Code") VALUES ('transfer') RETURNING id ;`
+    );
+    await db.any(
+      `INSERT INTO "Transaction"
+     ("TransactionTime","Amount","AccountFromId","AccountToId","TransactionTypeId")
+      VALUES ('${moment().format()}','${fee}',(SELECT id FROM "Account"
+      WHERE "accountNumber" = '${accountFrom}'),
+      (SELECT id FROM "Account"
+      WHERE "accountNumber" = '${accountTo}'),
+     '${tTypeData[0].id}');`
+    );
+
+    res.send("Money succesfuly transfered!");
   } catch (error) {
     console.log(error);
     res.send(error);
