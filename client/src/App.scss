@@ -6,6 +6,11 @@ body {
   font-family: "Roboto", sans-serif;
   background: rgb(14, 7, 27) !important;
 }
+.App {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
 
 /* GENERAL */
 h1,
@@ -31,10 +36,38 @@ a:active {
   text-decoration: none;
 }
 
+/* BackToTop component styles*/
+.back-to-top {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  padding: 0.175rem 0.55rem;
+  line-height: 1.1;
+  border-radius: 0.25rem;
+  border-color: transparent;
+  outline: none;
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1000;
+  transition: background-color 0.3s, opacity 0.4s, visibility 0.4s;
+
+  &.show-back-to-top {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
 /* NAVBAR */
 
 .parent-nav-link-padding,
-.site-navbar .navbar-nav > li > span {
+.site-navbar .navbar-nav > li > a {
   padding: 15px 20px !important;
 }
 
@@ -46,7 +79,6 @@ a:active {
   margin-bottom: 0px;
   background: none;
   position: absolute;
-  top: 20px;
   width: 100%;
   z-index: 200;
   background: #fff;
@@ -65,7 +97,7 @@ a:active {
     top: 0;
   }
 }
-.site-navbar .navbar-nav > li > span {
+.site-navbar .navbar-nav > li > a {
   color: #8f9cec !important;
   font-size: 12px;
   font-weight: 300;
@@ -76,8 +108,8 @@ a:active {
   font-family: "Lato", sans-serif;
 }
 @media (max-width: 991.98px) {
-  .site-navbar .navbar-nav > li > span {
-    color: #fff !important;
+  .site-navbar .navbar-nav > li > a {
+    color: #798a9a !important;
   }
 }
 .site-navbar .navbar-nav.active > a {
@@ -86,4 +118,37 @@ a:active {
 
 .nav-link > span:hover {
   cursor: pointer;
+}
+
+/* HERO */
+
+.site-hero,
+.site-hero .row {
+  height: 100vh;
+}
+
+@media (min-width: 768px) {
+  .site-hero h1 {
+    font-size: 70px;
+  }
+}
+.site-hero h1 {
+  color: #ffffff;
+  font-family: "Heebo", "Arial" !important;
+  font-size: 36px;
+  font-weight: 300;
+  letter-spacing: -0.86px;
+  line-height: 47px;
+}
+
+.site-hero .hero-subtitle {
+  color: #9babff;
+  font-family: "Open Sans", sans-serif !important;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.45px;
+  line-height: 25px;
+}
+.site-section {
+  padding: 5em 0;
 }

@@ -1,10 +1,14 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Logo from "../Components/Logo";
+import Logo from "./Logo";
+import Scroll from "react-scroll";
+import BankLogin from "./BankLogin";
+import UserLogin from "./UserLogin";
+const ScrollLink = Scroll.Link;
 
 const useStyles = makeStyles({});
 
-const Header = () => {
+const Navbar = () => {
   const classes = useStyles();
   return (
     <nav
@@ -28,24 +32,40 @@ const Header = () => {
         </button>
 
         <div
-          className="navbar-collapse justify-content-md-end collapse mr-md-5 pr-md-5"
+          className="navbar-collapse  justify-content-md-end  collapse mr-md-5 pr-md-5"
           id="navbarsExample09"
         >
           <ul className="navbar-nav">
             <li className="nav-item">
-              <span>Banks</span>
+              <ScrollLink
+                to="home"
+                spy={true}
+                smooth={true}
+                duration={500}
+                className="nav-link active"
+              >
+                <span>Banks</span>
+              </ScrollLink>
             </li>
 
             <li className="nav-item">
-              <span>Users</span>
+              <ScrollLink
+                to="home"
+                spy={true}
+                smooth={true}
+                duration={500}
+                className="nav-link active"
+              >
+                <span>Users</span>
+              </ScrollLink>
+            </li>
+
+            <li className="nav-item mr-3">
+              <BankLogin />
             </li>
 
             <li className="nav-item">
-              <span>Sign in as user</span>
-            </li>
-
-            <li className="nav-item">
-              <span>Sign in as bank</span>
+              <UserLogin />
             </li>
           </ul>
         </div>
@@ -54,4 +74,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Navbar;
