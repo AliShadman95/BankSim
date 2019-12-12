@@ -2,14 +2,18 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Logo from "./Logo";
 import Scroll from "react-scroll";
-import BankLogin from "./BankLogin";
-import UserLogin from "./UserLogin";
+import Login from "./Login";
+import Avatar from "@material-ui/core/Avatar";
+import Chip from "@material-ui/core/Chip";
+import PurpleSphere from "../Media/purple-sphere-312.png";
 const ScrollLink = Scroll.Link;
 
 const useStyles = makeStyles({});
 
-const Navbar = () => {
+const Navbar = ({ login }) => {
   const classes = useStyles();
+
+  const handleLogout = () => {};
   return (
     <nav
       className={"navbar navbar-expand-lg site-navbar navbar-light bg-light"}
@@ -50,7 +54,7 @@ const Navbar = () => {
 
             <li className="nav-item">
               <ScrollLink
-                to="home"
+                to="users"
                 spy={true}
                 smooth={true}
                 duration={500}
@@ -59,14 +63,26 @@ const Navbar = () => {
                 <span>Users</span>
               </ScrollLink>
             </li>
+            {!login ? (
+              <React.Fragment>
+                <li className="nav-item mr-3">
+                  <Login type="bank" />
+                </li>
 
-            <li className="nav-item mr-3">
-              <BankLogin />
-            </li>
-
-            <li className="nav-item">
-              <UserLogin />
-            </li>
+                <li className="nav-item">
+                  <Login type="user" />
+                </li>
+              </React.Fragment>
+            ) : (
+              <li className="nav-item ml-5 mt-2">
+                <Chip
+                  color="primary"
+                  onDelete={handleLogout}
+                  avatar={<Avatar src={PurpleSphere} />}
+                  label="Username"
+                />
+              </li>
+            )}
           </ul>
         </div>
       </div>

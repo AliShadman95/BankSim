@@ -152,3 +152,29 @@ a:active {
 .site-section {
   padding: 5em 0;
 }
+
+.logo-img {
+  width: 100%;
+  height: auto;
+}
+
+/* VIDEO BACKGROUND*/
+
+#videoBG {
+  position: absolute;
+  z-index: 1;
+}
+
+@media (min-aspect-ratio: 16/9) {
+  #videoBG {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-aspect-ratio: 16/9) {
+  #videoBG {
+    width: auto;
+    height: 100%;
+  }
+}
