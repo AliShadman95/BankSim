@@ -140,6 +140,11 @@ a:active {
     height: 100vh;
   }
 }
+@media (max-width: 768px) {
+  .loggedin-hero {
+    height: 300vh !important;
+  }
+}
 
 @media (min-width: 768px) {
   .site-hero h1 {
