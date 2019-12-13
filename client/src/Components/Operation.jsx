@@ -12,6 +12,7 @@ import TextField from "@material-ui/core/TextField";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import AutoSizer from "react-virtualized-auto-sizer";
 import MenuItem from "@material-ui/core/MenuItem";
+import { useMediaQuery } from "react-responsive";
 
 import GreenSphere from "../Media/green-sphere-312.png";
 
@@ -49,6 +50,11 @@ function renderRow(props) {
 }
 
 const Operation = ({ type }) => {
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-device-width: 1224px)"
+  });
+
+  const isTabletOrHigher = useMediaQuery({ query: "(min-width: 768px)" });
   const [accountFrom, setAccountFrom] = useState("0000000");
   const [accountTo, setAccountTo] = useState("0000000");
 
@@ -109,7 +115,10 @@ const Operation = ({ type }) => {
         }`}
       />
       {type === "transfer" && (
-        <div className="row mt-2" style={{ maxHeight: "10vh" }}>
+        <div
+          className="row mt-2 mb-sm-2"
+          style={{ maxHeight: `${isTabletOrHigher ? "10vh" : "20vh"}` }}
+        >
           <div className="col-md-6 pt-1 ">
             <CssTextField
               id="filled-number"
@@ -121,7 +130,7 @@ const Operation = ({ type }) => {
               InputLabelProps={{
                 shrink: true
               }}
-              helperText="Please select from"
+              helperText={`${isDesktopOrLaptop ? "Please select from" : ""}`}
               fullWidth
             >
               <MenuItem value={1}>18878966</MenuItem>
@@ -139,7 +148,7 @@ const Operation = ({ type }) => {
               InputLabelProps={{
                 shrink: true
               }}
-              helperText="Please select to"
+              helperText={`${isDesktopOrLaptop ? "Please select to" : ""}`}
               fullWidth
             >
               <MenuItem value={1}>118878966</MenuItem>
@@ -149,20 +158,24 @@ const Operation = ({ type }) => {
           </div>
         </div>
       )}
+
       <div
-        className={`${"row mt-2"} ${type === "transfer" ? "mb-1" : ""}`}
+        className={`${"row mt-2 nowrap-input"} ${
+          type === "transfer" ? "mb-1" : ""
+        }`}
         style={{ maxHeight: "10vh" }}
       >
-        <div className="col-md-6  pt-1 ">
+        <div className="col-md-6 col-sm-4 pt-1 ">
           <CssTextField
             id="standard-select-currency"
             label="Amount"
             InputLabelProps={{
               shrink: true
             }}
+            fullWidth
           />
         </div>
-        <div className="col-md-6 pt-2">
+        <div className="col-md-6 col-sm-4 pt-2">
           <AwesomeButton
             size="small"
             type="primary"

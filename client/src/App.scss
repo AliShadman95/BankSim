@@ -135,9 +135,33 @@ a:active {
   height: 100vh;
 }
 
+@media (max-width: 768px) {
+  .site-hero {
+    height: 100vh;
+  }
+}
+
 @media (min-width: 768px) {
   .site-hero h1 {
     font-size: 70px;
+  }
+}
+
+@media (min-width: 576px) {
+  .loggedin-hero {
+    height: 50vh !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1198px) {
+  .loggedin-hero {
+    height: 100vh !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .loggedin-hero {
+    height: 100vh !important;
   }
 }
 
@@ -197,6 +221,14 @@ a:active {
   border-radius: 0px 13px 13px 0px;
   border-left: none;
 }
+@media (max-width: 576px) {
+  .operations-box {
+    height: 200vh;
+  }
+  .op-center {
+    max-height: 75vh;
+  }
+}
 
 .light-divider {
   background-color: #87bbc1 !important;
@@ -206,4 +238,10 @@ a:active {
 .lightest-divider {
   background-color: #a8caff !important;
   margin: 0 10px 0 10px !important;
+}
+
+@media (max-width: 768px) {
+  .nowrap-input {
+    flex-wrap: nowrap !important;
+  }
 }

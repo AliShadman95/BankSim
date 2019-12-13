@@ -6,7 +6,7 @@ const HeroLoggedIn = () => {
   return (
     <React.Fragment>
       <section
-        className="site-hero"
+        className="site-hero loggedin-hero"
         id="section-home"
         data-stellar-background-ratio="0.5"
       >
