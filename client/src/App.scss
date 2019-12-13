@@ -1,5 +1,5 @@
 body {
-  color: #798a9a;
+  color: white;
   line-height: 1.7;
   font-size: 16px;
   font-weight: 300;
@@ -34,6 +34,14 @@ a:focus,
 a:active {
   color: #4ebe2a;
   text-decoration: none;
+}
+
+.light-text {
+  color: #87bbc1 !important;
+}
+
+.lightest-text {
+  color: #a8caff !important;
 }
 
 /* BackToTop component styles*/
@@ -158,23 +166,38 @@ a:active {
   height: auto;
 }
 
-/* VIDEO BACKGROUND*/
+/* OPERATIONS */
 
-#videoBG {
-  position: absolute;
-  z-index: 1;
+.operations-box {
+  background-color: #18104b;
+  max-height: 60vh;
+  width: 100vw;
 }
 
-@media (min-aspect-ratio: 16/9) {
-  #videoBG {
-    width: 100%;
-    height: auto;
-  }
+.op-center {
+  background-color: #1f195e;
+  max-height: 65vh;
+  border: 3px solid #25387e;
+  border-radius: 13px;
+}
+.op-left {
+  border: 3px solid #252796;
+  border-radius: 13px 0px 0px 13px;
+  border-right: none;
 }
 
-@media (max-aspect-ratio: 16/9) {
-  #videoBG {
-    width: auto;
-    height: 100%;
-  }
+.op-right {
+  border: 3px solid #252796;
+  border-radius: 0px 13px 13px 0px;
+  border-left: none;
+}
+
+.light-divider {
+  background-color: #87bbc1 !important;
+  margin: 0 10px 0 10px !important;
+}
+
+.lightest-divider {
+  background-color: #a8caff !important;
+  margin: 0 10px 0 10px !important;
 }
