@@ -2,14 +2,9 @@ body {
   color: white;
   line-height: 1.7;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: bold !important;
   font-family: "Roboto", sans-serif;
   background: rgb(14, 7, 27) !important;
-}
-.App {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
 }
 
 /* GENERAL */
@@ -117,7 +112,7 @@ a:active {
 }
 @media (max-width: 991.98px) {
   .site-navbar .navbar-nav > li > a {
-    color: #798a9a !important;
+    color: white !important;
   }
 }
 .site-navbar .navbar-nav.active > a {
@@ -129,6 +124,11 @@ a:active {
 }
 
 /* HERO */
+.hero-bg {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
 
 .site-hero,
 .site-hero .row {
@@ -140,6 +140,7 @@ a:active {
     font-size: 70px;
   }
 }
+
 .site-hero h1 {
   color: #ffffff;
   font-family: "Heebo", "Arial" !important;
@@ -164,6 +165,11 @@ a:active {
 .logo-img {
   width: 100%;
   height: auto;
+}
+
+.balance {
+  font-size: 22px !important;
+  font-weight: bold !important;
 }
 
 /* OPERATIONS */

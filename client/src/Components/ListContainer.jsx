@@ -7,7 +7,7 @@ import Lists from "./Lists";
 const Users = () => {
   return (
     <div>
-      <Box className="ml-5 mr-5 mt-5">
+      <Box className="ml-md-5 mr-md-5 mt-md-5">
         <div className="container">
           <div className="row justify-content-between pl-5 pr-5">
             <div className="col-md-5">

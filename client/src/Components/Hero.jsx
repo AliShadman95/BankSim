@@ -2,12 +2,16 @@ import React, { useState } from "react";
 
 import Logo from "../Media/logo_transparent.png";
 import Create from "./Create";
+import { useMediaQuery } from "react-responsive";
 
 const Hero = () => {
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-device-width: 1224px)"
+  });
   return (
     <React.Fragment>
       <section
-        className="site-hero"
+        className="site-hero "
         id="section-home"
         data-stellar-background-ratio="0.5"
       >
@@ -19,19 +23,23 @@ const Hero = () => {
                 A bank simulator where you can create users, banks, accounts and
                 deposit, withdraw, transfer money and more!
               </p>
-              <div className="d-flex mt-4">
-                <div className="col-md-6" style={{ paddingLeft: "0px" }}>
+              <div className="mt-4  d-flex">
+                <div
+                  className="col-md-1 col-lg-6 "
+                  style={{ paddingLeft: `${isDesktopOrLaptop ? "0px" : ""}` }}
+                >
                   <Create type="user" />
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-1 col-lg-6">
                   <Create type="bank" />
                 </div>
               </div>
             </div>
-
-            <div className="col-md-4 d-flex justify-content-center align-items-center">
-              <img src={Logo} alt="logo" className="logo-img" />
-            </div>
+            {isDesktopOrLaptop && (
+              <div className="col-md-4 d-flex justify-content-center align-items-center">
+                <img src={Logo} alt="logo" className="logo-img" />
+              </div>
+            )}
           </div>
         </div>
       </section>

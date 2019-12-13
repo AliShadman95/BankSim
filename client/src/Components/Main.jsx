@@ -9,7 +9,7 @@ import HeroBg from "../Media/hero-bg-3840.png";
 
 const Main = () => {
   return (
-    <div style={{ backgroundImage: `url(${HeroBg})` }}>
+    <div className="hero-bg " style={{ backgroundImage: `url(${HeroBg})` }}>
       <BackToTop showAt={400} speed={1500} easing="easeInOutQuint">
         <svg
           style={{ fill: "#007bff" }}

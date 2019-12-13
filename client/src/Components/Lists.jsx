@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     color: "#ffffff",
     fontFamily: "Heebo, Arial !important",
     fontSize: "36px",
-    fontWeight: 300,
+    fontWeight: "bold",
     lineHeight: "47px"
   },
   nested: {

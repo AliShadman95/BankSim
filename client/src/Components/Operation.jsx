@@ -18,13 +18,19 @@ import GreenSphere from "../Media/green-sphere-312.png";
 const CssTextField = withStyles({
   root: {
     "& .MuiFormLabel-root": {
-      color: "white"
+      color: "white",
+      fontWeight: "bold"
     },
     "& .MuiInput-underline:before": {
-      borderBottom: "1px solid white"
+      borderBottom: "1px solid #9FBFF5"
     },
     "& .MuiInputBase-input": {
-      color: "white"
+      color: "#9FBFF5",
+      fontWeight: "bold"
+    },
+    "& .MuiFormHelperText-root": {
+      color: "white",
+      fontWeight: "bold"
     }
   }
 })(TextField);
@@ -55,7 +61,7 @@ const Operation = ({ type }) => {
   return (
     <React.Fragment>
       <div className="row" style={{ maxHeight: "15vh" }}>
-        <div className="col-md-12 d-flex flex-column align-items-start pt-4 pl-4">
+        <div className="col-md-12 d-flex flex-column align-items-start pt-3 pl-4">
           <p
             className={`${
               type === "transfer"
@@ -65,7 +71,7 @@ const Operation = ({ type }) => {
             style={{
               marginBottom: "0px",
               fontSize: "12px",
-              fontWeight: "600"
+              fontWeight: "900"
             }}
           >
             User1
@@ -115,13 +121,15 @@ const Operation = ({ type }) => {
               InputLabelProps={{
                 shrink: true
               }}
+              helperText="Please select from"
+              fullWidth
             >
               <MenuItem value={1}>18878966</MenuItem>
               <MenuItem value={2}>2</MenuItem>
               <MenuItem value={3}>3</MenuItem>
             </CssTextField>
           </div>
-          <div className="col-md-6 pt-1 ">
+          <div className="col-md-6  pt-1 ">
             <CssTextField
               id="standard-select-currency"
               label="To"
@@ -131,6 +139,8 @@ const Operation = ({ type }) => {
               InputLabelProps={{
                 shrink: true
               }}
+              helperText="Please select to"
+              fullWidth
             >
               <MenuItem value={1}>118878966</MenuItem>
               <MenuItem value={2}>2</MenuItem>
@@ -143,7 +153,7 @@ const Operation = ({ type }) => {
         className={`${"row mt-2"} ${type === "transfer" ? "mb-1" : ""}`}
         style={{ maxHeight: "10vh" }}
       >
-        <div className="col-md-6 pt-1 ">
+        <div className="col-md-6  pt-1 ">
           <CssTextField
             id="standard-select-currency"
             label="Amount"
