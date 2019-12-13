@@ -44,7 +44,20 @@ function renderRow(props) {
       <ListItemAvatar>
         <Avatar src={GreenSphere} key={index} />
       </ListItemAvatar>
-      <ListItemText primary="Single-line item" />
+      <ListItemText primary="Single-line item" secondary="$100" />
+    </ListItem>
+  );
+}
+
+function renderRowTransfer(props) {
+  const { index, style } = props;
+
+  return (
+    <ListItem style={style}>
+      <ListItemAvatar>
+        <Avatar src={GreenSphere} key={index} />
+      </ListItemAvatar>
+      <ListItemText primary="Transfer" secondary="$100" />
     </ListItem>
   );
 }
@@ -103,7 +116,7 @@ const Operation = ({ type }) => {
               itemSize={46}
               itemCount={20}
             >
-              {renderRow}
+              {type === "transfer" ? renderRowTransfer : renderRow}
             </FixedSizeList>
           )}
         </AutoSizer>
@@ -130,7 +143,6 @@ const Operation = ({ type }) => {
               InputLabelProps={{
                 shrink: true
               }}
-              helperText={`${isDesktopOrLaptop ? "Please select from" : ""}`}
               fullWidth
             >
               <MenuItem value={1}>18878966</MenuItem>
@@ -148,7 +160,6 @@ const Operation = ({ type }) => {
               InputLabelProps={{
                 shrink: true
               }}
-              helperText={`${isDesktopOrLaptop ? "Please select to" : ""}`}
               fullWidth
             >
               <MenuItem value={1}>118878966</MenuItem>
