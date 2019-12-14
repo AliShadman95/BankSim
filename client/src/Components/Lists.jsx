@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import List from "@material-ui/core/List";
@@ -13,8 +13,6 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import OrangeSphere from "../Media/orange_sphere-312.png";
 import BlueSphere from "../Media/blue-sphere-312.png";
-import { connect } from "react-redux";
-import { setUsers } from "../actions/userActions";
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -54,9 +52,10 @@ const StyledListItemText = withStyles({
   }
 })(ListItemText);
 
-const Lists = ({ subheader }) => {
-  const classes = useStyles();
+const Lists = ({ subheader, users, banks }) => {
   const [open, setOpen] = React.useState(true);
+
+  const classes = useStyles();
 
   const handleClick = () => {
     setOpen(!open);
@@ -95,37 +94,35 @@ const Lists = ({ subheader }) => {
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
-            <ListItemAvatar>
-              <Avatar alt="blue shpere" src={BlueSphere} />
-            </ListItemAvatar>
-            <StyledListItemText
-              primary="bank2"
-              className={`${classes.lightText} ${"pl-2"}`}
-              disableTypography
-            />
-          </ListItem>
-          <ListItem button className={classes.nested}>
-            <ListItemAvatar>
-              <Avatar alt="blue shpere" src={BlueSphere} />
-            </ListItemAvatar>
-            <StyledListItemText
-              primary="bank2"
-              className={`${classes.lightText} ${"pl-2"}`}
-              disableTypography
-            />
-          </ListItem>
-
-          <ListItem button className={classes.nested}>
-            <ListItemAvatar>
-              <Avatar alt="blue shpere" src={BlueSphere} />
-            </ListItemAvatar>
-            <StyledListItemText
-              primary="bank2"
-              className={`${classes.lightText} ${"pl-2"}`}
-              disableTypography
-            />
-          </ListItem>
+          {users
+            ? users.map((user, index) => {
+                return (
+                  <ListItem button className={classes.nested}>
+                    <ListItemAvatar>
+                      <Avatar alt="blue shpere" src={BlueSphere} />
+                    </ListItemAvatar>
+                    <StyledListItemText
+                      primary={user.name}
+                      className={`${classes.lightText} ${"pl-2"}`}
+                      disableTypography
+                    />
+                  </ListItem>
+                );
+              })
+            : banks.map((bank, index) => {
+                return (
+                  <ListItem button className={classes.nested}>
+                    <ListItemAvatar>
+                      <Avatar alt="blue shpere" src={BlueSphere} />
+                    </ListItemAvatar>
+                    <StyledListItemText
+                      primary={bank.name}
+                      className={`${classes.lightText} ${"pl-2"}`}
+                      disableTypography
+                    />
+                  </ListItem>
+                );
+              })}
         </List>
       </Collapse>
     </List>

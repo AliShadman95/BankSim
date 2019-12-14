@@ -1,6 +1,8 @@
 import { combineReducers } from "redux";
-import usersReducer from "./userReducer.js";
+import userReducer from "./userReducer.js";
+import bankReducer from "./bankReducer.js";
 
 export default combineReducers({
-  users: usersReducer
+  users: userReducer,
+  banks: bankReducer
 });
