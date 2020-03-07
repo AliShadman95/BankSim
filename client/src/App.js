@@ -1,5 +1,4 @@
-import React from "react";
-
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Main from "./Components/Main";
 import LoggedIn from "./Components/LoggedIn";
@@ -29,7 +28,7 @@ function App() {
     <Provider store={store}>
       <div className="App">
         <Router>
-          <Route path="/" exact component={LoggedIn} />
+          <Route path="/" exact component={Main} />
           <Route path="/login" component={LoggedIn} />
         </Router>
       </div>

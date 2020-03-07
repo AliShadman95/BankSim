@@ -1,6 +1,6 @@
-export const GET_USERS = "GET_USERS";
+export const GET_PERSONS = "GET_PERSONS";
 export const GET_BANKS = "GET_BANKS";
-export const ADD_USER = "ADD_USER";
+export const ADD_PERSON = "ADD_PERSON";
 export const ADD_BANK = "ADD_BANK";
 /* export const DELETE_MESSAGE = "DELETE_MESSAGE";
 export const EDIT_MESSAGE = "EDIT_MESSAGE";

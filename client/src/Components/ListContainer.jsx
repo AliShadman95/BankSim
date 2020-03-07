@@ -1,28 +1,21 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Box from "@material-ui/core/Box";
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import { getUsers } from "../actions/userActions";
 
 import Lists from "./Lists";
-import { getBanks } from "../actions/bankActions";
 
-const ListContainer = ({ users, banks, getUsers, getBanks }) => {
-  useEffect(() => {
-    getUsers();
-    getBanks();
-  }, []);
-
+const ListContainer = ({ personsList, banksList }) => {
   return (
     <div>
       <Box className="ml-md-5 mr-md-5 mt-md-5">
         <div className="container">
           <div className="row justify-content-between pl-5 pr-5">
             <div className="col-md-5">
-              <Lists subheader="Users" users={users} />
+              <Lists subheader="Users" persons={personsList} />
             </div>
             <div className="col-md-5">
-              <Lists subheader="Banks" banks={banks} />
+              <Lists subheader="Banks" banks={banksList} />
             </div>
           </div>
         </div>
@@ -32,11 +25,8 @@ const ListContainer = ({ users, banks, getUsers, getBanks }) => {
 };
 
 const mapStateToProps = state => ({
-  users: state.users.items,
-  banks: state.banks.items
+  personsList: state.persons.items,
+  banksList: state.banks.items
 });
 
-export default connect(mapStateToProps, {
-  getUsers,
-  getBanks
-})(ListContainer);
+export default connect(mapStateToProps, {})(ListContainer);

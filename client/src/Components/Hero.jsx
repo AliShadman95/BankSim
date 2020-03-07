@@ -39,7 +39,7 @@ const Hero = () => {
                     marginBottom: `${isTabletOrBigger ? "0px" : "5vh"}`
                   }}
                 >
-                  <Create type="user" />
+                  <Create type="person" />
                 </div>
                 <div
                   className="col-md-6 col-lg-6 pl-md-3"

@@ -1,4 +1,4 @@
-import { GET_BANKS } from "./types";
+import { GET_BANKS, ADD_BANK } from "./types";
 import axios from "axios";
 
 export const getBanks = () => async dispatch => {
@@ -6,4 +6,11 @@ export const getBanks = () => async dispatch => {
   const response = await axios.get(`http://localhost:3005/bank`);
   console.log(response);
   dispatch({ type: GET_BANKS, payload: response.data });
+};
+
+export const createBank = bankName => async dispatch => {
+  console.log("calling addBank");
+  const response = await axios.post(`http://localhost:3005/bank/${bankName}`);
+  console.log(response);
+  dispatch({ type: ADD_BANK, payload: response.data });
 };

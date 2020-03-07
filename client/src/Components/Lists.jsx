@@ -52,8 +52,8 @@ const StyledListItemText = withStyles({
   }
 })(ListItemText);
 
-const Lists = ({ subheader, users, banks }) => {
-  const [open, setOpen] = React.useState(true);
+const Lists = ({ subheader, persons, banks }) => {
+  const [open, setOpen] = React.useState(false);
 
   const classes = useStyles();
 
@@ -94,15 +94,15 @@ const Lists = ({ subheader, users, banks }) => {
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {users
-            ? users.map((user, index) => {
+          {persons
+            ? persons.map((person, index) => {
                 return (
-                  <ListItem button className={classes.nested}>
+                  <ListItem button key={index} className={classes.nested}>
                     <ListItemAvatar>
                       <Avatar alt="blue shpere" src={BlueSphere} />
                     </ListItemAvatar>
                     <StyledListItemText
-                      primary={user.name}
+                      primary={person.name}
                       className={`${classes.lightText} ${"pl-2"}`}
                       disableTypography
                     />
@@ -111,7 +111,7 @@ const Lists = ({ subheader, users, banks }) => {
               })
             : banks.map((bank, index) => {
                 return (
-                  <ListItem button className={classes.nested}>
+                  <ListItem button key={index} className={classes.nested}>
                     <ListItemAvatar>
                       <Avatar alt="blue shpere" src={BlueSphere} />
                     </ListItemAvatar>

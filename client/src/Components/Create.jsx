@@ -9,6 +9,9 @@ import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useMediaQuery } from "react-responsive";
+import { connect } from "react-redux";
+import { createBank } from "../actions/bankActions";
+import { createPerson } from "../actions/personActions";
 
 const StyledButton = withStyles({
   root: {
@@ -33,12 +36,14 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
 });
 
-const Create = ({ type }) => {
+function Create({ type, personsList, banksList, createBank, createPerson }) {
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-device-width: 1224px)"
   });
   const [openDialog, setOpenDialog] = useState(false);
-  const [bank, setBank] = useState("bank1");
+  const [bankName, setBankName] = useState("");
+  const [personName, setPersonName] = useState("");
+  const [accountName, setAccountName] = useState("");
 
   const handleClickOpenDialog = () => {
     setOpenDialog(true);
@@ -48,24 +53,38 @@ const Create = ({ type }) => {
     setOpenDialog(false);
   };
 
-  const handleChangeBank = event => {
-    setBank(event.target.value);
-  };
-
-  const labelType = () => {
+  function create() {
     switch (type) {
       case "bank":
-        return "Bank name";
-
-      case "username":
-        return "Username";
-
+        createBank(bankName);
+        break;
+      case "person":
+        createPerson(personName);
+        break;
       case "account":
-        return "Account";
+        break;
+      case "default":
+        break;
+    }
+    handleCloseDialog();
+  }
+
+  const handleChangeName = event => {
+    switch (type) {
+      case "bank":
+        setBankName(event.target.value);
+        break;
+      case "person":
+        setPersonName(event.target.value);
+        break;
+      case "account":
+        setAccountName(event.target.value);
+        break;
       case "default":
         break;
     }
   };
+
   return (
     <React.Fragment>
       <StyledButton
@@ -90,8 +109,8 @@ const Create = ({ type }) => {
               id="standard-select-currency"
               label="Bank"
               select
-              value={bank}
-              onChange={handleChangeBank}
+              value={accountName}
+              onChange={handleChangeName}
               InputLabelProps={{
                 shrink: true
               }}
@@ -106,11 +125,13 @@ const Create = ({ type }) => {
               autoFocus
               margin="dense"
               id="name"
-              label={`${type === "bank" ? "Bank name" : "Username"}`}
+              label={`${type === "bank" ? "Bank name" : "Person name"}`}
               type="text"
               fullWidth
+              onChange={handleChangeName}
+              value={type === "bank" ? bankName : personName}
               helperText={`${"Please choose a  "} ${
-                type === "bank" ? "bank name" : "username"
+                type === "bank" ? "bank name" : "person name"
               }`}
             />
           )}
@@ -119,11 +140,18 @@ const Create = ({ type }) => {
           <Button onClick={handleCloseDialog} color="secondary">
             Cancel
           </Button>
-          <Button color="primary">Create</Button>
+          <Button color="primary" onClick={create}>
+            Create
+          </Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
   );
-};
+}
 
-export default Create;
+const mapStateToProps = state => ({
+  personsList: state.persons.items,
+  banksList: state.banks.items
+});
+
+export default connect(mapStateToProps, { createPerson, createBank })(Create);

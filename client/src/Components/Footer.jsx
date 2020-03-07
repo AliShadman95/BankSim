@@ -10,7 +10,7 @@ const Footer = () => {
             variant="caption"
             style={{ color: "white" }}
           >
-            Made with ❤ by Ali Shadman
+            Made by Ali Shadman
           </Typography>
         </div>
       </div>
