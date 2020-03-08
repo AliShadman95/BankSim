@@ -17,7 +17,7 @@ import BlueSphere from "../Media/blue-sphere-312.png";
 const useStyles = makeStyles(theme => ({
   root: {},
   subheader: {
-    color: "#ffffff",
+    color: "#8f9cec",
     fontFamily: "Heebo, Arial !important",
     fontSize: "36px",
     fontWeight: "bold",
@@ -36,8 +36,8 @@ const useStyles = makeStyles(theme => ({
   },
   subDivider: {
     backgroundColor: "#9BAAFC !important",
-    marginRight: "60px !important",
-    marginLeft: "60px !important"
+    marginRight: "30px !important",
+    marginLeft: "30px !important"
   }
 }));
 
@@ -53,13 +53,15 @@ const StyledListItemText = withStyles({
 })(ListItemText);
 
 const Lists = ({ subheader, persons, banks }) => {
-  const [open, setOpen] = React.useState(false);
+  const [selectedCollapse, setSelectedCollapse] = React.useState(-1);
 
   const classes = useStyles();
-
-  const handleClick = () => {
-    setOpen(!open);
+  const handleExpandClick = collapseIndex => {
+    setSelectedCollapse(
+      selectedCollapse === collapseIndex ? -1 : collapseIndex
+    );
   };
+
   return (
     <List
       component="nav"
@@ -76,28 +78,71 @@ const Lists = ({ subheader, persons, banks }) => {
       }
     >
       <Divider variant="middle" component="li" className={classes.subDivider} />
-      <ListItem button onClick={handleClick}>
-        <ListItemAvatar>
-          <Avatar
-            alt="oragesphere"
-            src={OrangeSphere}
-            className={classes.bigAvatar}
-          />
-        </ListItemAvatar>
-        <StyledListItemText
-          primary="bank2"
-          className="pl-2"
-          disableTypography
-        />
 
-        {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      <Collapse in={open} timeout="auto" unmountOnExit>
+      <List component="div" disablePadding>
+        {persons
+          ? persons.map((person, index) => {
+              return (
+                <ListItem button onClick={() => handleExpandClick(index)}>
+                  <ListItemAvatar>
+                    <Avatar
+                      alt="oragesphere"
+                      src={OrangeSphere}
+                      className={classes.bigAvatar}
+                    />
+                  </ListItemAvatar>
+                  <StyledListItemText
+                    primary={person.name}
+                    className="pl-2"
+                    disableTypography
+                  />
+
+                  {selectedCollapse === index ? <ExpandLess /> : <ExpandMore />}
+                  <Collapse
+                    in={selectedCollapse === index}
+                    timeout="auto"
+                    unmountOnExit
+                  >
+                    hey
+                  </Collapse>
+                </ListItem>
+              );
+            })
+          : banks.map((bank, index) => {
+              return (
+                <ListItem button onClick={() => handleExpandClick(index)}>
+                  <ListItemAvatar>
+                    <Avatar
+                      alt="oragesphere"
+                      src={OrangeSphere}
+                      className={classes.bigAvatar}
+                    />
+                  </ListItemAvatar>
+                  <StyledListItemText
+                    primary={bank.name}
+                    className="pl-2"
+                    disableTypography
+                  />
+
+                  {selectedCollapse === index ? <ExpandLess /> : <ExpandMore />}
+                  <Collapse
+                    in={selectedCollapse === index}
+                    timeout="auto"
+                    unmountOnExit
+                  >
+                    hey
+                  </Collapse>
+                </ListItem>
+              );
+            })}
+      </List>
+
+      {/* <Collapse in={openCollapse} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           {persons
             ? persons.map((person, index) => {
                 return (
-                  <ListItem button key={index} className={classes.nested}>
+                  <ListItem key={index} className={classes.nested}>
                     <ListItemAvatar>
                       <Avatar alt="blue shpere" src={BlueSphere} />
                     </ListItemAvatar>
@@ -111,7 +156,7 @@ const Lists = ({ subheader, persons, banks }) => {
               })
             : banks.map((bank, index) => {
                 return (
-                  <ListItem button key={index} className={classes.nested}>
+                  <ListItem key={index} className={classes.nested}>
                     <ListItemAvatar>
                       <Avatar alt="blue shpere" src={BlueSphere} />
                     </ListItemAvatar>
@@ -124,7 +169,7 @@ const Lists = ({ subheader, persons, banks }) => {
                 );
               })}
         </List>
-      </Collapse>
+      </Collapse> */}
     </List>
   );
 };

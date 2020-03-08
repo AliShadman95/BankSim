@@ -8,6 +8,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
 import PurpleSphere from "../Media/purple-sphere-312.png";
 import Create from "./Create";
+import ListContainer from "./ListContainer";
 const ScrollLink = Scroll.Link;
 
 const useStyles = makeStyles({});
@@ -46,15 +47,7 @@ const Navbar = ({ login }) => {
         >
           <ul className="navbar-nav">
             <li className="nav-item">
-              <ScrollLink
-                to="users"
-                spy={true}
-                smooth={true}
-                duration={500}
-                className="nav-link active"
-              >
-                <span>Banks & Users</span>
-              </ScrollLink>
+              <ListContainer />
             </li>
 
             {!login ? (
@@ -64,7 +57,7 @@ const Navbar = ({ login }) => {
                 </li>
 
                 <li className="nav-item">
-                  <Login type="user" />
+                  <Login type="person" />
                 </li>
               </React.Fragment>
             ) : (

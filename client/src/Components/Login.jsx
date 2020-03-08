@@ -3,7 +3,6 @@ import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
-
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -12,22 +11,12 @@ import Slide from "@material-ui/core/Slide";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
+import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
 });
-
-const useStyles = makeStyles(theme => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-    maxWidth: 300
-  },
-  root: {},
-  nested: {
-    paddingLeft: theme.spacing(4)
-  }
-}));
 
 const StyledButton = withStyles({
   root: {
@@ -47,10 +36,20 @@ const StyledButton = withStyles({
   }
 })(Button);
 
-const Login = ({ type }) => {
-  const classes = useStyles();
+const Login = ({ type, personsList, banksList }) => {
+  let history = useHistory();
 
   const [openDialog, setOpenDialog] = useState(false);
+
+  const handleLoginClick = () => {
+    history.push({
+      pathname: "/login",
+      state:
+        type === "bank"
+          ? { bank: "hello, im a passed message!" }
+          : { person: "hello, im a passed message!" }
+    });
+  };
 
   const handleClickOpenDialog = () => {
     setOpenDialog(true);
@@ -63,7 +62,7 @@ const Login = ({ type }) => {
   const [bankOrUser, setBankOrUser] = React.useState("");
 
   const handleChange = event => {
-    setBankOrUser(Number(event.target.value) || "");
+    setBankOrUser(event.target.value || "");
   };
 
   return (
@@ -77,35 +76,54 @@ const Login = ({ type }) => {
         aria-labelledby="form-dialog-title"
         TransitionComponent={Transition}
         keepMounted
+        maxWidth="xs"
+        fullWidth
       >
         <DialogTitle id="form-dialog-title">Login as {type}</DialogTitle>
         <DialogContent>
-          <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="demo-dialog-native">
-              {type.charAt(0).toUpperCase() + type.slice(1) + "s"}
-            </InputLabel>
-            <Select
-              native
-              value={bankOrUser}
-              onChange={handleChange}
-              input={<Input id="demo-dialog-native" />}
-            >
-              <option value="" />
-              <option value={10}>Ten</option>
-              <option value={20}>Twenty</option>
-              <option value={30}>Thirty</option>
-            </Select>
-          </FormControl>
+          <InputLabel htmlFor="demo-dialog-native">
+            {type.charAt(0).toUpperCase() + type.slice(1) + "s"}
+          </InputLabel>
+          <Select
+            native
+            value={bankOrUser}
+            onChange={handleChange}
+            input={<Input id="demo-dialog-native" />}
+            fullWidth
+          >
+            {type === "person"
+              ? personsList.map((person, index) => {
+                  return (
+                    <option key={index} value={person.name}>
+                      {person.name}
+                    </option>
+                  );
+                })
+              : banksList.map((bank, index) => {
+                  return (
+                    <option key={index} value={bank.name}>
+                      {bank.name}
+                    </option>
+                  );
+                })}
+          </Select>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog} color="secondary">
             Cancel
           </Button>
-          <Button color="primary">Create</Button>
+          <Button color="primary" onClick={handleLoginClick}>
+            Login
+          </Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
   );
 };
 
-export default Login;
+const mapStateToProps = state => ({
+  personsList: state.persons.items,
+  banksList: state.banks.items
+});
+
+export default connect(mapStateToProps, {})(Login);

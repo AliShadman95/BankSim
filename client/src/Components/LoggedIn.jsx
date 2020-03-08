@@ -6,8 +6,12 @@ import ListContainer from "./ListContainer";
 import Footer from "./Footer";
 import HeroLoggedIn from "./HeroLoggedIn";
 import SliderBG from "../Media/waves-slider-blue-6176.png";
+import { useEffect } from "react";
 
-const LoggedIn = () => {
+const LoggedIn = ({ location }) => {
+  useEffect(() => {
+    console.log(location.state);
+  }, []);
   return (
     <div
       style={{
