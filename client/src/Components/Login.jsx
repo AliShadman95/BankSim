@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
@@ -36,18 +36,34 @@ const StyledButton = withStyles({
   }
 })(Button);
 
-const Login = ({ type, personsList, banksList }) => {
-  let history = useHistory();
+const SmallerStyledButton = withStyles({
+  root: {
+    background: "#18122B",
+    borderRadius: 40,
+    borderWidth: "1px",
+    borderStyle: "solid",
+    border: 0,
+    color: "white",
+    height: 38,
+    padding: "10px 39px 11px 40px",
+    fontSize: "12px",
+    fontWeight: 900,
+    letterSpacing: "2px",
+    lineHeight: "12px",
+    borderColor: "rgba(155, 171, 255, 0.3)",
+    whiteSpace: "nowrap"
+  }
+})(Button);
 
+function Login({ type, personsList, banksList, accountsList }) {
+  let history = useHistory();
+  const [bankOrPerson, setBankOrPerson] = React.useState("");
   const [openDialog, setOpenDialog] = useState(false);
 
   const handleLoginClick = () => {
     history.push({
-      pathname: "/login",
-      state:
-        type === "bank"
-          ? { bank: "hello, im a passed message!" }
-          : { person: "hello, im a passed message!" }
+      pathname: `/${type}-login`,
+      state: { type, name: bankOrPerson }
     });
   };
 
@@ -59,17 +75,22 @@ const Login = ({ type, personsList, banksList }) => {
     setOpenDialog(false);
   };
 
-  const [bankOrUser, setBankOrUser] = React.useState("");
-
   const handleChange = event => {
-    setBankOrUser(event.target.value || "");
+    setBankOrPerson(event.target.value || "");
   };
 
   return (
     <React.Fragment>
-      <StyledButton onClick={handleClickOpenDialog}>
-        Login as {type}
-      </StyledButton>
+      {type === "account" ? (
+        <SmallerStyledButton onClick={handleClickOpenDialog}>
+          Login {type}
+        </SmallerStyledButton>
+      ) : (
+        <StyledButton onClick={handleClickOpenDialog}>
+          Login {type}
+        </StyledButton>
+      )}
+
       <Dialog
         open={openDialog}
         onClose={handleCloseDialog}
@@ -86,26 +107,38 @@ const Login = ({ type, personsList, banksList }) => {
           </InputLabel>
           <Select
             native
-            value={bankOrUser}
+            value={bankOrPerson}
             onChange={handleChange}
             input={<Input id="demo-dialog-native" />}
             fullWidth
           >
-            {type === "person"
-              ? personsList.map((person, index) => {
-                  return (
-                    <option key={index} value={person.name}>
-                      {person.name}
-                    </option>
-                  );
-                })
-              : banksList.map((bank, index) => {
-                  return (
-                    <option key={index} value={bank.name}>
-                      {bank.name}
-                    </option>
-                  );
-                })}
+            {type === "person" &&
+              personsList.map((person, index) => {
+                return (
+                  <option key={index} value={person.name}>
+                    {person.name}
+                  </option>
+                );
+              })}
+            {type === "bank" &&
+              banksList.map((bank, index) => {
+                return (
+                  <option key={index} value={bank.name}>
+                    {bank.name}
+                  </option>
+                );
+              })}
+            {type === "account" &&
+              accountsList.map(account => {
+                return (
+                  <option
+                    key={account.accountNumber}
+                    value={account.accountNumber}
+                  >
+                    {account.accountNumber}
+                  </option>
+                );
+              })}
           </Select>
         </DialogContent>
         <DialogActions>
@@ -119,11 +152,12 @@ const Login = ({ type, personsList, banksList }) => {
       </Dialog>
     </React.Fragment>
   );
-};
+}
 
 const mapStateToProps = state => ({
   personsList: state.persons.items,
-  banksList: state.banks.items
+  banksList: state.banks.items,
+  accountsList: state.accounts.items
 });
 
 export default connect(mapStateToProps, {})(Login);

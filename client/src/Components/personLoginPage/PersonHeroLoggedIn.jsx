@@ -1,16 +1,23 @@
-import React, { useState } from "react";
-
-import Logo from "../Media/logo_transparent.png";
-import Create from "./Create";
+import React, { useState, useEffect } from "react";
+import Logo from "../../Media/logo_transparent.png";
+import Create from "../Create";
 import { useMediaQuery } from "react-responsive";
+import Login from "../Login";
+import { getAccountsFromPerson } from "../../actions/accountActions";
+import { connect } from "react-redux";
 
-const Hero = () => {
+function PersonHeroLoggedIn({ personName, getAccountsFromPerson }) {
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-device-width: 1224px)"
   });
   const isTabletOrBigger = useMediaQuery({
     query: "(min-device-width: 768px)"
   });
+
+  useEffect(() => {
+    console.log(personName);
+    getAccountsFromPerson(personName);
+  }, []);
   return (
     <React.Fragment>
       <section
@@ -20,12 +27,9 @@ const Hero = () => {
       >
         <div className="container">
           <div className="row justify-content-between">
-            <div className="col-md-5 d-flex flex-column  justify-content-center align-items-start  pl-lg-5">
-              <h1>Welcome to BankSim!</h1>
-              <p className="hero-subtitle">
-                A bank simulator where you can create users, banks, accounts and
-                deposit, withdraw, transfer money and more!
-              </p>
+            <div className="col-md-5 d-flex flex-column pb-5 mb-5 justify-content-center align-items-start  pl-lg-5">
+              <h1>Welcome {personName}</h1>
+              <p className="hero-subtitle">Create an account or login!</p>
               <div
                 className="mt-4 d-flex"
                 style={{
@@ -33,26 +37,27 @@ const Hero = () => {
                 }}
               >
                 <div
-                  className="col-md-6 col-lg-6 "
+                  className="col-md-6 col-lg-6"
                   style={{
                     paddingLeft: `${isTabletOrBigger ? "0px" : "20vw"}`,
                     marginBottom: `${isTabletOrBigger ? "0px" : "5vh"}`
                   }}
                 >
-                  <Create type="person" />
+                  <Create type="account" pName={personName} />
                 </div>
                 <div
                   className="col-md-6 col-lg-6 pl-md-3"
                   style={{
-                    paddingLeft: `${isTabletOrBigger ? "0px" : "20vw"}`
+                    paddingLeft: `${isTabletOrBigger ? "0px" : "20vw"}`,
+                    marginBottom: `${isTabletOrBigger ? "0px" : "5vh"}`
                   }}
                 >
-                  <Create type="bank" />
+                  <Login type="account" personName={personName} />
                 </div>
               </div>
             </div>
             {isTabletOrBigger && (
-              <div className="col-md-4 d-flex justify-content-center align-items-center">
+              <div className="col-md-4 d-flex mb-5 pb-5 justify-content-center align-items-center">
                 <img src={Logo} alt="logo" className="logo-img" />
               </div>
             )}
@@ -61,6 +66,6 @@ const Hero = () => {
       </section>
     </React.Fragment>
   );
-};
+}
 
-export default Hero;
+export default connect(null, { getAccountsFromPerson })(PersonHeroLoggedIn);

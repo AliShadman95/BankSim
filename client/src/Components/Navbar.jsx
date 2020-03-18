@@ -13,11 +13,12 @@ const ScrollLink = Scroll.Link;
 
 const useStyles = makeStyles({});
 
-const Navbar = ({ login }) => {
+const Navbar = ({ login, bankOrPerson }) => {
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-device-width: 1224px)"
   });
   const handleLogout = () => {};
+
   return (
     <nav
       className={"navbar navbar-expand-lg site-navbar navbar-light bg-light"}
@@ -62,15 +63,12 @@ const Navbar = ({ login }) => {
               </React.Fragment>
             ) : (
               <React.Fragment>
-                <li className="nav-item mr-1">
-                  <Create type="account" />
-                </li>
                 <li className="nav-item ml-2 mt-1">
                   <Chip
                     color="primary"
                     onDelete={handleLogout}
                     avatar={<Avatar src={PurpleSphere} />}
-                    label="Username"
+                    label={bankOrPerson}
                   />
                 </li>
               </React.Fragment>

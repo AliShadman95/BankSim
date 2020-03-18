@@ -11,7 +11,7 @@ exports.list_all_accounts_person = async (req, res) => {
        INNER JOIN "Bank" as b ON b.id = a."bankId"
        WHERE p.name = '${personName}';`
     );
-    if (accData.length == 0) return res.send("Person not found");
+    if (accData.length == 0) return res.send(["Person not found"]);
     res.send(accData);
   } catch (error) {
     res.send(error);
@@ -59,17 +59,20 @@ exports.create_an_account = async (req, res) => {
       bankData[0].code +
       Math.floor(Math.random() * (700000 - 323001 + 1) + 323001);
 
-    await db.any(
+    let accountNumber = await db.any(
       `INSERT INTO "Account"("accountNumber",balance,"personId","bankId")
        VALUES (${accountCode},0,(SELECT id FROM "Person" WHERE name = '${personName}'),
-       ${bankData[0].id});`
+       ${bankData[0].id}) RETURNING "accountNumber";`
     );
 
-    res.send("Account created!");
+    res.send({
+      message: "Account created!",
+      accountNumber: accountNumber[0].accountNumber
+    });
   } catch (error) {
     console.log(error);
     if (error.code == 23502) {
-      res.send("person doesnt exist");
+      res.send({ message: "person doesnt exist" });
     }
     res.send(error);
   }

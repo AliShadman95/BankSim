@@ -12,6 +12,8 @@ import { useMediaQuery } from "react-responsive";
 import { connect } from "react-redux";
 import { createBank } from "../actions/bankActions";
 import { createPerson } from "../actions/personActions";
+import { createAccount } from "../actions/accountActions";
+import { useHistory } from "react-router-dom";
 
 const StyledButton = withStyles({
   root: {
@@ -36,14 +38,22 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
 });
 
-function Create({ type, personsList, banksList, createBank, createPerson }) {
+function Create({
+  type,
+  banksList,
+  createBank,
+  createPerson,
+  createAccount,
+  pName
+}) {
+  let history = useHistory();
+
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-device-width: 1224px)"
   });
   const [openDialog, setOpenDialog] = useState(false);
   const [bankName, setBankName] = useState("");
   const [personName, setPersonName] = useState("");
-  const [accountName, setAccountName] = useState("");
 
   const handleClickOpenDialog = () => {
     setOpenDialog(true);
@@ -62,6 +72,8 @@ function Create({ type, personsList, banksList, createBank, createPerson }) {
         createPerson(personName);
         break;
       case "account":
+        createAccount(bankName, pName);
+        // popup confirming
         break;
       case "default":
         break;
@@ -78,7 +90,7 @@ function Create({ type, personsList, banksList, createBank, createPerson }) {
         setPersonName(event.target.value);
         break;
       case "account":
-        setAccountName(event.target.value);
+        setBankName(event.target.value);
         break;
       case "default":
         break;
@@ -108,17 +120,18 @@ function Create({ type, personsList, banksList, createBank, createPerson }) {
             <TextField
               id="standard-select-currency"
               label="Bank"
+              fullWidth
               select
-              value={accountName}
+              value={bankName}
               onChange={handleChangeName}
               InputLabelProps={{
                 shrink: true
               }}
               helperText="Please select a bank"
             >
-              <MenuItem value={1}>Bank1</MenuItem>
-              <MenuItem value={2}>Bank2</MenuItem>
-              <MenuItem value={3}>Bank3</MenuItem>
+              {banksList.map((bank, index) => (
+                <MenuItem value={bank.name}>{bank.name}</MenuItem>
+              ))}
             </TextField>
           ) : (
             <TextField
@@ -150,8 +163,12 @@ function Create({ type, personsList, banksList, createBank, createPerson }) {
 }
 
 const mapStateToProps = state => ({
-  personsList: state.persons.items,
-  banksList: state.banks.items
+  banksList: state.banks.items,
+  accounts: state.accounts.items
 });
 
-export default connect(mapStateToProps, { createPerson, createBank })(Create);
+export default connect(mapStateToProps, {
+  createPerson,
+  createBank,
+  createAccount
+})(Create);

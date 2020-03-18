@@ -9,7 +9,7 @@ export const getBanks = () => async dispatch => {
 };
 
 export const createBank = bankName => async dispatch => {
-  console.log("calling addBank");
+  console.log("calling createBank");
   const response = await axios.post(`http://localhost:3005/bank/${bankName}`);
   console.log(response);
   dispatch({ type: ADD_BANK, payload: response.data });

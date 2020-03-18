@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Main from "./Components/Main";
-import LoggedIn from "./Components/LoggedIn";
+import AccountLoggedIn from "./Components/accountLoginPage/AccountLoggedIn";
+import BankLoggedIn from "./Components/bankLoginPage/BankLoggedIn";
+import PersonLoggedIn from "./Components/personLoginPage/PersonLoggedIn";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
@@ -29,7 +31,9 @@ function App() {
       <div className="App">
         <Router>
           <Route path="/" exact component={Main} />
-          <Route path="/login" component={LoggedIn} />
+          <Route path="/account-login" component={AccountLoggedIn} />
+          <Route path="/person-login" component={PersonLoggedIn} />
+          <Route path="/bank-login" component={BankLoggedIn} />
         </Router>
       </div>
     </Provider>

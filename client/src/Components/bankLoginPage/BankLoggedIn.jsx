@@ -1,17 +1,11 @@
 import React from "react";
-import Navbar from "./Navbar";
+import Navbar from "../Navbar";
 import { Element } from "react-scroll";
-import BackToTop from "../../node_modules/react-back-to-top-button/build/index";
-import ListContainer from "./ListContainer";
-import Footer from "./Footer";
-import HeroLoggedIn from "./HeroLoggedIn";
-import SliderBG from "../Media/waves-slider-blue-6176.png";
-import { useEffect } from "react";
+import BackToTop from "react-back-to-top-button";
+import Footer from "../Footer";
+import SliderBG from "../../Media/waves-slider-blue-6176.png";
 
-const LoggedIn = ({ location }) => {
-  useEffect(() => {
-    console.log(location.state);
-  }, []);
+function BankLoggedIn({ location }) {
   return (
     <div
       style={{
@@ -31,16 +25,10 @@ const LoggedIn = ({ location }) => {
         </svg>
       </BackToTop>
       <Navbar login={true} />
-      <Element id="home" name="home">
-        <HeroLoggedIn />
-      </Element>
-      <Element id="users" name="users">
-        <ListContainer />
-      </Element>
-
+      <Element id="home" name="home"></Element>
       <Footer />
     </div>
   );
-};
+}
 
-export default LoggedIn;
+export default BankLoggedIn;

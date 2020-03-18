@@ -14,7 +14,7 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useMediaQuery } from "react-responsive";
 
-import GreenSphere from "../Media/green-sphere-312.png";
+import GreenSphere from "../../Media/green-sphere-312.png";
 
 const CssTextField = withStyles({
   root: {
