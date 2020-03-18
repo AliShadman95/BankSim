@@ -4,6 +4,8 @@ export const ADD_PERSON = "ADD_PERSON";
 export const ADD_BANK = "ADD_BANK";
 export const GET_ACCOUNTS = "GET_ACCOUNTS";
 export const ADD_ACCOUNT = "ADD_ACCOUNT";
+export const GET_ERRORS = "GET_ERRORS";
+export const ADD_ERROR = "ADD_ERROR";
 
 /* export const DELETE_MESSAGE = "DELETE_MESSAGE";
 export const EDIT_MESSAGE = "EDIT_MESSAGE";

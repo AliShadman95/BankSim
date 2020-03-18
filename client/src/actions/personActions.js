@@ -1,4 +1,4 @@
-import { GET_PERSONS, ADD_PERSON } from "./types";
+import { GET_PERSONS, ADD_PERSON, ADD_ERROR } from "./types";
 import axios from "axios";
 
 export const getPersons = () => async dispatch => {
@@ -13,6 +13,9 @@ export const createPerson = personName => async dispatch => {
   const response = await axios.post(
     `http://localhost:3005/person/${personName}`
   );
-  console.log(response);
-  dispatch({ type: ADD_PERSON, payload: response.data });
+  if (response.data.error) {
+    dispatch({ type: ADD_ERROR, payload: response.data });
+  } else {
+    dispatch({ type: ADD_PERSON, payload: response.data });
+  }
 };

@@ -19,13 +19,13 @@ exports.create_a_person = async (req, res) => {
         return person.name == personName;
       })
     ) {
-      return res.send("Person name already exist!");
+      return res.send({ message: "Person name already exist!", error: true });
     }
 
     await db.any(`INSERT INTO "Person"(name) VALUES ('${personName}');`);
-    res.send("Person created!");
+    res.send({ message: "Person created!", error: false });
   } catch (error) {
-    res.send(error);
+    res.send({ message: error, error: true });
   }
 };
 

@@ -47,13 +47,17 @@ exports.create_an_account = async (req, res) => {
     );
 
     if (acc[0].count >= 2)
-      return res.send("This person has already two accounts on this bank");
+      return res.send({
+        message: "This person has already two accounts on this bank",
+        error: true
+      });
 
     // Getting bankcode and concatenate it to a random number
     let bankData = await db.any(
       `SELECT id,code FROM "Bank" WHERE name = '${bankName}';`
     );
-    if (!bankData[0]) return res.send("Bank doesnt exist");
+    if (!bankData[0])
+      return res.send({ message: "Bank doesnt exist", error: true });
 
     let accountCode =
       bankData[0].code +
@@ -67,14 +71,15 @@ exports.create_an_account = async (req, res) => {
 
     res.send({
       message: "Account created!",
-      accountNumber: accountNumber[0].accountNumber
+      accountNumber: accountNumber[0].accountNumber,
+      error: false
     });
   } catch (error) {
     console.log(error);
     if (error.code == 23502) {
-      res.send({ message: "person doesnt exist" });
+      res.send({ message: "person doesnt exist", error: true });
     }
-    res.send(error);
+    res.send({ message: error, error: true });
   }
 };
 

@@ -4,8 +4,9 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Snackbar from "@material-ui/core/Snackbar";
 import Slide from "@material-ui/core/Slide";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useMediaQuery } from "react-responsive";
@@ -13,7 +14,7 @@ import { connect } from "react-redux";
 import { createBank } from "../actions/bankActions";
 import { createPerson } from "../actions/personActions";
 import { createAccount } from "../actions/accountActions";
-import { useHistory } from "react-router-dom";
+import MuiAlert from "@material-ui/lab/Alert";
 
 const StyledButton = withStyles({
   root: {
@@ -34,6 +35,10 @@ const StyledButton = withStyles({
   }
 })(Button);
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
 });
@@ -44,16 +49,16 @@ function Create({
   createBank,
   createPerson,
   createAccount,
-  pName
+  pName,
+  errors
 }) {
-  let history = useHistory();
-
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-device-width: 1224px)"
   });
   const [openDialog, setOpenDialog] = useState(false);
   const [bankName, setBankName] = useState("");
   const [personName, setPersonName] = useState("");
+  const [openSnackBar, setOpenSnackBar] = React.useState(false);
 
   const handleClickOpenDialog = () => {
     setOpenDialog(true);
@@ -63,13 +68,27 @@ function Create({
     setOpenDialog(false);
   };
 
+  const handleCloseSnackBar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenSnackBar(false);
+  };
+
   function create() {
     switch (type) {
       case "bank":
         createBank(bankName);
+        setTimeout(() => {
+          setOpenSnackBar(true);
+        }, 2000);
         break;
       case "person":
         createPerson(personName);
+        setTimeout(() => {
+          setOpenSnackBar(true);
+        }, 2000);
         break;
       case "account":
         createAccount(bankName, pName);
@@ -158,13 +177,26 @@ function Create({
           </Button>
         </DialogActions>
       </Dialog>
+      <Snackbar
+        open={openSnackBar}
+        autoHideDuration={5000}
+        onClose={handleCloseSnackBar}
+      >
+        <Alert
+          onClose={handleCloseSnackBar}
+          severity={errors.error ? "error" : "success"}
+        >
+          {errors.error ? errors.message : `${type} created successfully!`}
+        </Alert>
+      </Snackbar>
     </React.Fragment>
   );
 }
 
 const mapStateToProps = state => ({
   banksList: state.banks.items,
-  accounts: state.accounts.items
+  accounts: state.accounts.items,
+  errors: state.errors.item
 });
 
 export default connect(mapStateToProps, {

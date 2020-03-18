@@ -19,7 +19,7 @@ exports.create_a_bank = async (req, res) => {
         return bank.name == bankName;
       })
     ) {
-      return res.send("Bank name already exist!");
+      return res.send({ message: "Bank name already exist!", error: true });
     }
 
     let shouldSearch = true;
@@ -36,12 +36,12 @@ exports.create_a_bank = async (req, res) => {
         await db.any(
           `INSERT INTO "Bank"(code,name) VALUES (${bankCode},'${bankName}');`
         );
-        res.send("Bank created!");
+        res.send({ message: "Bank created!", error: false });
       }
     }
   } catch (error) {
     console.log(error);
-    res.send(error);
+    res.send({ message: error, error: true });
   }
 };
 
