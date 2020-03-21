@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
-import Operations from "./Operations";
-import Logo from "../../Media/logo_transparent.png";
+import React from "react";
+import Operations from "../accountLoginPage/Operations";
 
-function AccountHeroLoggedIn({ type, name }) {
+function BankHeroLoggedIn({ bankName }) {
   return (
     <React.Fragment>
       <section
@@ -13,7 +12,7 @@ function AccountHeroLoggedIn({ type, name }) {
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-md-5 text-center flex-column align-self-start mt-5 pt-5 justify-content-center d-flex align-items-center">
-              <h1>Welcome {name}</h1>
+              <h1>Welcome {bankName}</h1>
               <p className="hero-subtitle balance">$1000.00</p>
             </div>
             <Operations />
@@ -24,4 +23,4 @@ function AccountHeroLoggedIn({ type, name }) {
   );
 }
 
-export default AccountHeroLoggedIn;
+export default BankHeroLoggedIn;

@@ -2,14 +2,15 @@ import React from "react";
 import Navbar from "../Navbar";
 import { Element } from "react-scroll";
 import BackToTop from "react-back-to-top-button";
+import BankHeroLoggedIn from "./BankHeroLoggedIn";
 import Footer from "../Footer";
-import SliderBG from "../../Media/waves-slider-blue-6176.png";
+import wavesBG from "../../Media/bg-waves-1024.png";
 
 function BankLoggedIn({ location }) {
   return (
     <div
       style={{
-        backgroundImage: `url(${SliderBG})`,
+        backgroundImage: `url(${wavesBG})`,
         backgroundPosition: "center",
         backgroundAttachment: "fixed",
         backgroundSize: "cover"
@@ -25,7 +26,9 @@ function BankLoggedIn({ location }) {
         </svg>
       </BackToTop>
       <Navbar login={true} />
-      <Element id="home" name="home"></Element>
+      <Element id="home" name="home">
+        <BankHeroLoggedIn bankName={location.state.name} />
+      </Element>
       <Footer />
     </div>
   );
