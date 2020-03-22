@@ -15,7 +15,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { useMediaQuery } from "react-responsive";
 import GreenSphere from "../../Media/green-sphere-312.png";
 import { connect } from "react-redux";
-import { depositMoney } from "../../actions/transactionActions";
+import {
+  depositMoney,
+  withdrawMoney,
+  transferMoney
+} from "../../actions/transactionActions";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
 
@@ -69,13 +73,20 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const Operation = ({ type, accountNumber, depositMoney, errors }) => {
+const Operation = ({
+  type,
+  accountNumber,
+  depositMoney,
+  errors,
+  withdrawMoney,
+  transferMoney
+}) => {
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-device-width: 1224px)"
   });
 
   const isTabletOrHigher = useMediaQuery({ query: "(min-width: 768px)" });
-  const [accountTo, setAccountTo] = useState("0000000");
+  const [accountTo, setAccountTo] = useState("");
   const [amount, setAmount] = useState("");
   const [openSnackBar, setOpenSnackBar] = React.useState(false);
 
@@ -100,8 +111,16 @@ const Operation = ({ type, accountNumber, depositMoney, errors }) => {
         }, 2000);
         break;
       case "withdraw":
+        withdrawMoney(accountNumber, amount);
+        setTimeout(() => {
+          setOpenSnackBar(true);
+        }, 2000);
         break;
       case "transfer":
+        transferMoney(accountNumber, accountTo, amount);
+        setTimeout(() => {
+          setOpenSnackBar(true);
+        }, 2000);
         break;
       case "default":
         break;
@@ -152,20 +171,15 @@ const Operation = ({ type, accountNumber, depositMoney, errors }) => {
         >
           <div className="col-md-12  pt-1 ">
             <CssTextField
-              id="standard-select-currency"
+              id="standard-select"
               label="To"
-              select
               value={accountTo}
               onChange={handleChangeAccountTo}
               InputLabelProps={{
                 shrink: true
               }}
               fullWidth
-            >
-              <MenuItem value={1}>118878966</MenuItem>
-              <MenuItem value={2}>2</MenuItem>
-              <MenuItem value={3}>3</MenuItem>
-            </CssTextField>
+            ></CssTextField>
           </div>
         </div>
       )}
@@ -222,4 +236,8 @@ const Operation = ({ type, accountNumber, depositMoney, errors }) => {
 
 const mapStateToProps = state => ({ errors: state.errors.item });
 
-export default connect(mapStateToProps, { depositMoney })(Operation);
+export default connect(mapStateToProps, {
+  depositMoney,
+  withdrawMoney,
+  transferMoney
+})(Operation);

@@ -45,11 +45,11 @@ exports.withdraw_money = async (req, res) => {
        WHERE "accountNumber" = '${accountNumber}';`
     );
     if (fee > parseFloat(balance[0].balance.toString().substr(1)))
-      return res.send("Insufficent money!");
+      return res.send({ message: "Insufficent money!", error: true });
 
-    await db.any(
+    let updatedBalance = await db.any(
       `UPDATE "Account" SET balance = balance - '${fee}'
-       WHERE "accountNumber" = '${accountNumber}';`
+       WHERE "accountNumber" = '${accountNumber}' RETURNING balance;`
     );
     //Inserting in transactions tables
     const tTypeData = await db.any(
@@ -63,10 +63,14 @@ exports.withdraw_money = async (req, res) => {
      '${tTypeData[0].id}');`
     );
 
-    res.send("Money succesfuly withdrawn!");
+    res.send({
+      message: "Money succesfuly withdrawn!",
+      balance: updatedBalance,
+      error: false
+    });
   } catch (error) {
     console.log(error);
-    res.send(error);
+    res.send({ message: error, error: true });
   }
 };
 exports.transfer_money = async (req, res) => {
@@ -82,14 +86,14 @@ exports.transfer_money = async (req, res) => {
     );
 
     if (fee > parseFloat(balance[0].balance.toString().substr(1)))
-      return res.send("Insufficent money!");
+      return res.send({ message: "Insufficent money!", error: true });
 
-    await db.any(
+    let updatedBalance = await db.any(
       `UPDATE "Account" SET balance = CASE
        WHEN "accountNumber" = '${accountFrom}' THEN balance - '${fee}'
        WHEN "accountNumber" = '${accountTo}' THEN balance + '${fee}'
        END
-       WHERE "accountNumber" IN ('${accountFrom}','${accountTo}' );`
+       WHERE "accountNumber" IN ('${accountFrom}','${accountTo}' ) RETURNING balance;`
     );
 
     //Inserting in transactions tables
@@ -106,10 +110,14 @@ exports.transfer_money = async (req, res) => {
      '${tTypeData[0].id}');`
     );
 
-    res.send("Money succesfuly transfered!");
+    res.send({
+      message: "Money succesfuly transfered!",
+      balance: updatedBalance,
+      error: false
+    });
   } catch (error) {
     console.log(error);
-    res.send(error);
+    res.send({ message: error, error: true });
   }
 };
 
