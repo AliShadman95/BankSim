@@ -1,4 +1,9 @@
-import { ADD_TRANSACTION, GET_BALANCE_ACCOUNT } from "./types";
+import {
+  ADD_TRANSACTION,
+  GET_BALANCE_ACCOUNT,
+  ADD_ERROR,
+  RESET_ERRORS
+} from "./types";
 import axios from "axios";
 
 export const depositMoney = (accountNumber, fee) => async dispatch => {
@@ -7,9 +12,14 @@ export const depositMoney = (accountNumber, fee) => async dispatch => {
     `http://localhost:3005/account/deposit/${accountNumber}/${fee}`
   );
   console.log(response);
-  dispatch({ type: ADD_TRANSACTION, payload: response.data });
-  dispatch({
-    type: GET_BALANCE_ACCOUNT,
-    payload: response.data.balance[0].balance
-  });
+  if (response.data.error) {
+    dispatch({ type: ADD_ERROR, payload: response.data });
+  } else {
+    dispatch({ type: RESET_ERRORS });
+    dispatch({ type: ADD_TRANSACTION, payload: response.data });
+    dispatch({
+      type: GET_BALANCE_ACCOUNT,
+      payload: response.data.balance[0].balance
+    });
+  }
 };

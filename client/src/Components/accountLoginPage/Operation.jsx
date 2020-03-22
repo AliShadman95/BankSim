@@ -16,6 +16,8 @@ import { useMediaQuery } from "react-responsive";
 import GreenSphere from "../../Media/green-sphere-312.png";
 import { connect } from "react-redux";
 import { depositMoney } from "../../actions/transactionActions";
+import MuiAlert from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
 
 const CssTextField = withStyles({
   root: {
@@ -63,7 +65,11 @@ function renderRowTransfer(props) {
   );
 }
 
-const Operation = ({ type, accountNumber, depositMoney }) => {
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+const Operation = ({ type, accountNumber, depositMoney, errors }) => {
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-device-width: 1224px)"
   });
@@ -71,6 +77,14 @@ const Operation = ({ type, accountNumber, depositMoney }) => {
   const isTabletOrHigher = useMediaQuery({ query: "(min-width: 768px)" });
   const [accountTo, setAccountTo] = useState("0000000");
   const [amount, setAmount] = useState("");
+  const [openSnackBar, setOpenSnackBar] = React.useState(false);
+
+  const handleCloseSnackBar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackBar(false);
+  };
 
   const handleChangeAccountTo = event => {
     setAccountTo(event.target.value);
@@ -81,6 +95,9 @@ const Operation = ({ type, accountNumber, depositMoney }) => {
     switch (type) {
       case "deposit":
         depositMoney(accountNumber, amount);
+        setTimeout(() => {
+          setOpenSnackBar(true);
+        }, 2000);
         break;
       case "withdraw":
         break;
@@ -182,8 +199,27 @@ const Operation = ({ type, accountNumber, depositMoney }) => {
           </AwesomeButton>
         </div>
       </div>
+      <Snackbar
+        open={openSnackBar}
+        autoHideDuration={5000}
+        onClose={handleCloseSnackBar}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+      >
+        <Alert
+          onClose={handleCloseSnackBar}
+          severity={errors.error ? "error" : "success"}
+        >
+          {errors.error
+            ? errors.message.name
+              ? errors.message.name
+              : errors.message
+            : `${type.charAt(0).toUpperCase() + type.slice(1)} successfull!`}
+        </Alert>
+      </Snackbar>
     </React.Fragment>
   );
 };
 
-export default connect(null, { depositMoney })(Operation);
+const mapStateToProps = state => ({ errors: state.errors.item });
+
+export default connect(mapStateToProps, { depositMoney })(Operation);

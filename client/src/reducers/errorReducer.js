@@ -1,4 +1,4 @@
-import { ADD_ERROR, GET_ERRORS } from "../actions/types";
+import { ADD_ERROR, GET_ERRORS, RESET_ERRORS } from "../actions/types";
 
 const initialState = { items: [], item: [] };
 
@@ -8,6 +8,8 @@ export default (state = initialState, action) => {
       return { ...state, item: action.payload };
     case GET_ERRORS:
       return { ...state, item: action.payload };
+    case RESET_ERRORS:
+      return { ...state, item: [] };
     default:
       return state;
   }

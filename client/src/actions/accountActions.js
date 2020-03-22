@@ -2,7 +2,8 @@ import {
   GET_ACCOUNTS,
   ADD_ACCOUNT,
   ADD_ERROR,
-  GET_BALANCE_ACCOUNT
+  GET_BALANCE_ACCOUNT,
+  RESET_ERRORS
 } from "./types";
 import axios from "axios";
 
@@ -42,6 +43,7 @@ export const createAccount = (bankName, personName) => async dispatch => {
   if (response.data.error) {
     dispatch({ type: ADD_ERROR, payload: response.data });
   } else {
+    dispatch({ type: RESET_ERRORS });
     dispatch({ type: ADD_ACCOUNT, payload: response.data });
   }
 };

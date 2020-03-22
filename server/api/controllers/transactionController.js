@@ -23,10 +23,14 @@ exports.deposit_money = async (req, res) => {
      '${tTypeData[0].id}');`
     );
 
-    res.send({ message: "Money succesfully deposited!", balance });
+    res.send({
+      message: "Money succesfully deposited!",
+      balance,
+      error: false
+    });
   } catch (error) {
     console.log(error);
-    res.send(error);
+    res.send({ message: error, error: true });
   }
 };
 
