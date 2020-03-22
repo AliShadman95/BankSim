@@ -80,7 +80,14 @@ export const transferMoney = (
     dispatch({ type: ADD_ERROR, payload: response.data });
   } else {
     dispatch({ type: RESET_ERRORS });
-    dispatch({ type: ADD_TRANSACTION, payload: response.data });
+    dispatch({
+      type: ADD_TRANSACTION,
+      payload: {
+        TransactionTime: response.data.transaction[0].TransactionTime,
+        Amount: response.data.transaction[0].Amount,
+        Code: "transfer"
+      }
+    });
     dispatch({
       type: GET_BALANCE_ACCOUNT,
       payload: response.data.balance[1].balance

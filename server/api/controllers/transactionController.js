@@ -102,19 +102,20 @@ exports.transfer_money = async (req, res) => {
     const tTypeData = await db.any(
       `INSERT INTO "TransactionType"("Code") VALUES ('transfer') RETURNING id ;`
     );
-    await db.any(
+    const transaction = await db.any(
       `INSERT INTO "Transaction"
      ("TransactionTime","Amount","AccountFromId","AccountToId","TransactionTypeId")
        VALUES ('${moment().format()}','${fee}',(SELECT id FROM "Account"
        WHERE "accountNumber" = '${accountFrom}'),
       (SELECT id FROM "Account"
        WHERE "accountNumber" = '${accountTo}'),
-     '${tTypeData[0].id}');`
+     '${tTypeData[0].id}') RETURNING "TransactionTime","Amount";`
     );
 
     res.send({
       message: "Money succesfuly transfered!",
       balance: updatedBalance,
+      transaction,
       error: false
     });
   } catch (error) {

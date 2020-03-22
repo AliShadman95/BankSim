@@ -102,6 +102,7 @@ const Operation = ({
         break;
     }
     setAmount("");
+    setAccountTo("");
   };
 
   function renderRow(props) {
@@ -135,7 +136,17 @@ const Operation = ({
         <ListItemAvatar>
           <Avatar src={GreenSphere} key={index} />
         </ListItemAvatar>
-        <ListItemText primary="Transfer" secondary="$100" />
+        <ListItemText
+          primary={
+            !isDesktopOrLaptop
+              ? moment(transactionsList[index].TransactionTime).calendar()
+              : transactionsList[index].TransactionTime.substring(
+                  0,
+                  transactionsList[index].TransactionTime.length - 3
+                )
+          }
+          secondary={transactionsList[index].Amount}
+        />
       </ListItem>
     );
   }
