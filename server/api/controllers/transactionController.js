@@ -6,9 +6,9 @@ exports.deposit_money = async (req, res) => {
   try {
     let fee = req.params.fee;
     let accountNumber = req.params.accountNumber;
-    await db.any(
+    const balance = await db.any(
       `UPDATE "Account" SET balance = balance + '${fee}'
-       WHERE "accountNumber" = '${accountNumber}';`
+       WHERE "accountNumber" = '${accountNumber}' RETURNING balance;`
     );
 
     //Inserting in transactions tables
@@ -23,7 +23,7 @@ exports.deposit_money = async (req, res) => {
      '${tTypeData[0].id}');`
     );
 
-    res.send("Money succesfuly deposited!");
+    res.send({ message: "Money succesfully deposited!", balance });
   } catch (error) {
     console.log(error);
     res.send(error);

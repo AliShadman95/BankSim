@@ -13,8 +13,9 @@ import { withStyles, makeStyles } from "@material-ui/core/styles";
 import AutoSizer from "react-virtualized-auto-sizer";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useMediaQuery } from "react-responsive";
-
 import GreenSphere from "../../Media/green-sphere-312.png";
+import { connect } from "react-redux";
+import { depositMoney } from "../../actions/transactionActions";
 
 const CssTextField = withStyles({
   root: {
@@ -62,39 +63,39 @@ function renderRowTransfer(props) {
   );
 }
 
-const Operation = ({ type }) => {
+const Operation = ({ type, accountNumber, depositMoney }) => {
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-device-width: 1224px)"
   });
 
   const isTabletOrHigher = useMediaQuery({ query: "(min-width: 768px)" });
-  const [accountFrom, setAccountFrom] = useState("0000000");
   const [accountTo, setAccountTo] = useState("0000000");
+  const [amount, setAmount] = useState("");
 
-  const handleChangeAccountFrom = event => {
-    setAccountFrom(event.target.value);
-  };
   const handleChangeAccountTo = event => {
     setAccountTo(event.target.value);
   };
+
+  const handleOperationClick = e => {
+    console.log("inside");
+    switch (type) {
+      case "deposit":
+        depositMoney(accountNumber, amount);
+        break;
+      case "withdraw":
+        break;
+      case "transfer":
+        break;
+      case "default":
+        break;
+    }
+    setAmount("");
+  };
+
   return (
     <React.Fragment>
-      <div className="row" style={{ maxHeight: "15vh" }}>
+      <div className="row" style={{ maxHeight: "10vh" }}>
         <div className="col-md-12 d-flex flex-column align-items-start pt-3 pl-4">
-          <p
-            className={`${
-              type === "transfer"
-                ? "hero-subtitle lightest-text"
-                : "hero-subtitle light-text"
-            }`}
-            style={{
-              marginBottom: "0px",
-              fontSize: "12px",
-              fontWeight: "900"
-            }}
-          >
-            User1
-          </p>
           <h1>{type.charAt(0).toUpperCase() + type.slice(1)}</h1>
         </div>
       </div>
@@ -106,7 +107,7 @@ const Operation = ({ type }) => {
       />
       <div
         className="row mt-2 mb-2"
-        style={{ maxHeight: `${type === "transfer" ? "24vh" : "30vh"}` }}
+        style={{ maxHeight: `${type === "transfer" ? "29vh" : "35vh"}` }}
       >
         <AutoSizer>
           {({ height, width }) => (
@@ -132,25 +133,7 @@ const Operation = ({ type }) => {
           className="row mt-2 mb-sm-2"
           style={{ maxHeight: `${isTabletOrHigher ? "10vh" : "20vh"}` }}
         >
-          <div className="col-md-6 pt-1 ">
-            <CssTextField
-              id="filled-number"
-              label="From"
-              select
-              value={accountFrom}
-              onChange={handleChangeAccountFrom}
-              type="number"
-              InputLabelProps={{
-                shrink: true
-              }}
-              fullWidth
-            >
-              <MenuItem value={1}>18878966</MenuItem>
-              <MenuItem value={2}>2</MenuItem>
-              <MenuItem value={3}>3</MenuItem>
-            </CssTextField>
-          </div>
-          <div className="col-md-6  pt-1 ">
+          <div className="col-md-12  pt-1 ">
             <CssTextField
               id="standard-select-currency"
               label="To"
@@ -183,6 +166,8 @@ const Operation = ({ type }) => {
             InputLabelProps={{
               shrink: true
             }}
+            value={amount}
+            onChange={e => setAmount(e.target.value)}
             fullWidth
           />
         </div>
@@ -191,6 +176,7 @@ const Operation = ({ type }) => {
             size="small"
             type="primary"
             style={{ backgroundColor: "#85b8e4 !important" }}
+            onPress={handleOperationClick}
           >
             {type.charAt(0).toUpperCase() + type.slice(1)}
           </AwesomeButton>
@@ -200,4 +186,4 @@ const Operation = ({ type }) => {
   );
 };
 
-export default Operation;
+export default connect(null, { depositMoney })(Operation);

@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Operations from "./Operations";
 import Logo from "../../Media/logo_transparent.png";
+import { getBalanceOfAccount } from "../../actions/accountActions";
+import { connect } from "react-redux";
 
-function AccountHeroLoggedIn({ type, name }) {
+function AccountHeroLoggedIn({ accountNumber, getBalanceOfAccount, balance }) {
+  useEffect(() => {
+    getBalanceOfAccount(accountNumber);
+  }, []);
   return (
     <React.Fragment>
       <section
@@ -13,10 +18,10 @@ function AccountHeroLoggedIn({ type, name }) {
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-md-5 text-center flex-column align-self-start mt-5 pt-5 justify-content-center d-flex align-items-center">
-              <h1>Welcome {name}</h1>
-              <p className="hero-subtitle balance">$1000.00</p>
+              <h1>Welcome {accountNumber}</h1>
+              <p className="hero-subtitle balance">{balance}</p>
             </div>
-            <Operations />
+            <Operations accountNumber={accountNumber} />
           </div>
         </div>
       </section>
@@ -24,4 +29,10 @@ function AccountHeroLoggedIn({ type, name }) {
   );
 }
 
-export default AccountHeroLoggedIn;
+const mapStateToProps = state => ({
+  balance: state.accounts.item
+});
+
+export default connect(mapStateToProps, { getBalanceOfAccount })(
+  AccountHeroLoggedIn
+);

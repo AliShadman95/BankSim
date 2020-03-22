@@ -1,4 +1,9 @@
-import { GET_ACCOUNTS, ADD_ACCOUNT, ADD_ERROR } from "./types";
+import {
+  GET_ACCOUNTS,
+  ADD_ACCOUNT,
+  ADD_ERROR,
+  GET_BALANCE_ACCOUNT
+} from "./types";
 import axios from "axios";
 
 export const getAccountsFromPerson = personName => async dispatch => {
@@ -17,6 +22,15 @@ export const getAccountsFromBank = bankName => async dispatch => {
   );
   console.log(response);
   dispatch({ type: GET_ACCOUNTS, payload: response.data });
+};
+
+export const getBalanceOfAccount = accountNumber => async dispatch => {
+  console.log("calling getBalanceOfAccount");
+  const response = await axios.get(
+    `http://localhost:3005/account/balance/${accountNumber}`
+  );
+  console.log(response);
+  dispatch({ type: GET_BALANCE_ACCOUNT, payload: response.data });
 };
 
 export const createAccount = (bankName, personName) => async dispatch => {

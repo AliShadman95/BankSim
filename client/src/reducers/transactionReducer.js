@@ -1,15 +1,13 @@
-import { ADD_BANK, GET_BANKS, GET_BALANCE_BANK } from "../actions/types";
+import { ADD_TRANSACTION, GET_TRANSACTIONS } from "../actions/types";
 
 const initialState = { items: [], item: [] };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case ADD_BANK:
+    case ADD_TRANSACTION:
       return { ...state, items: [...state.items, action.payload] };
-    case GET_BANKS:
+    case GET_TRANSACTIONS:
       return { ...state, items: action.payload };
-    case GET_BALANCE_BANK:
-      return { ...state, item: action.payload };
     default:
       return state;
   }

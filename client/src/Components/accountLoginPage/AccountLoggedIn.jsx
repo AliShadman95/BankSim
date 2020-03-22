@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Navbar from "../Navbar";
 import { Element } from "react-scroll";
 import BackToTop from "react-back-to-top-button";
@@ -7,9 +7,6 @@ import AccountHeroLoggedIn from "./AccountHeroLoggedIn";
 import SliderBG from "../../Media/waves-slider-blue-6176.png";
 
 function AccountLoggedIn({ location }) {
-  useEffect(() => {
-    console.log(location.state);
-  }, []);
   return (
     <div
       style={{
@@ -30,10 +27,7 @@ function AccountLoggedIn({ location }) {
       </BackToTop>
       <Navbar login={true} bankOrPerson={location.state.name} />
       <Element id="home" name="home">
-        <AccountHeroLoggedIn
-          type={location.state.type}
-          name={location.state.name}
-        />
+        <AccountHeroLoggedIn accountNumber={location.state.name} />
       </Element>
       <Footer />
     </div>

@@ -1,12 +1,15 @@
 export const GET_PERSONS = "GET_PERSONS";
 export const GET_BANKS = "GET_BANKS";
-export const GET_BALANCE = "GET_BALANCE";
+export const GET_BALANCE_BANK = "GET_BALANCE_BANK";
+export const GET_BALANCE_ACCOUNT = "GET_BALANCE_ACCOUNT";
 export const ADD_PERSON = "ADD_PERSON";
 export const ADD_BANK = "ADD_BANK";
 export const GET_ACCOUNTS = "GET_ACCOUNTS";
 export const ADD_ACCOUNT = "ADD_ACCOUNT";
 export const GET_ERRORS = "GET_ERRORS";
 export const ADD_ERROR = "ADD_ERROR";
+export const ADD_TRANSACTION = "ADD_TRANSACTION";
+export const GET_TRANSACTIONS = "GET_TRANSACTIONS";
 
 /* export const DELETE_MESSAGE = "DELETE_MESSAGE";
 export const EDIT_MESSAGE = "EDIT_MESSAGE";
