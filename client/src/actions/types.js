@@ -1,5 +1,6 @@
 export const GET_PERSONS = "GET_PERSONS";
 export const GET_BANKS = "GET_BANKS";
+export const GET_BALANCE = "GET_BALANCE";
 export const ADD_PERSON = "ADD_PERSON";
 export const ADD_BANK = "ADD_BANK";
 export const GET_ACCOUNTS = "GET_ACCOUNTS";

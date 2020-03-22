@@ -1,7 +1,20 @@
-import React from "react";
-import Operations from "../accountLoginPage/Operations";
+import React, { useEffect } from "react";
+import AccountListBank from "./AccountListBank";
+import { getAccountsFromBank } from "../../actions/accountActions";
+import { getBalanceOfBank } from "../../actions/bankActions";
+import { connect } from "react-redux";
 
-function BankHeroLoggedIn({ bankName }) {
+function BankHeroLoggedIn({
+  bankName,
+  accountsList,
+  getAccountsFromBank,
+  getBalanceOfBank,
+  totalBalance
+}) {
+  useEffect(() => {
+    getAccountsFromBank(bankName);
+    getBalanceOfBank(bankName);
+  }, []);
   return (
     <React.Fragment>
       <section
@@ -11,11 +24,14 @@ function BankHeroLoggedIn({ bankName }) {
       >
         <div className="container">
           <div className="row justify-content-center">
-            <div className="col-md-5 text-center flex-column align-self-start mt-5 pt-5 justify-content-center d-flex align-items-center">
+            <div className="col-md-12 text-center flex-column align-self-start mt-5 pt-5 justify-content-center d-flex align-items-center">
               <h1>Welcome {bankName}</h1>
-              <p className="hero-subtitle balance">$1000.00</p>
+              <p className="hero-subtitle balance">{totalBalance}</p>
+              <AccountListBank
+                bankName={bankName}
+                accountsList={accountsList}
+              />
             </div>
-            <Operations />
           </div>
         </div>
       </section>
@@ -23,4 +39,12 @@ function BankHeroLoggedIn({ bankName }) {
   );
 }
 
-export default BankHeroLoggedIn;
+const mapStateToProps = state => ({
+  accountsList: state.accounts.items,
+  totalBalance: state.banks.item
+});
+
+export default connect(mapStateToProps, {
+  getAccountsFromBank,
+  getBalanceOfBank
+})(BankHeroLoggedIn);

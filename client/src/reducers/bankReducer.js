@@ -1,4 +1,4 @@
-import { ADD_BANK, GET_BANKS } from "../actions/types";
+import { ADD_BANK, GET_BANKS, GET_BALANCE } from "../actions/types";
 
 const initialState = { items: [], item: [] };
 
@@ -8,6 +8,8 @@ export default (state = initialState, action) => {
       return { ...state, items: [...state.items, action.payload] };
     case GET_BANKS:
       return { ...state, items: action.payload };
+    case GET_BALANCE:
+      return { ...state, item: action.payload };
     default:
       return state;
   }

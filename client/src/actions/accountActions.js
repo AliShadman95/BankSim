@@ -10,6 +10,15 @@ export const getAccountsFromPerson = personName => async dispatch => {
   dispatch({ type: GET_ACCOUNTS, payload: response.data });
 };
 
+export const getAccountsFromBank = bankName => async dispatch => {
+  console.log("calling getAccountFromBank");
+  const response = await axios.get(
+    `http://localhost:3005/account/list/bank/${bankName}`
+  );
+  console.log(response);
+  dispatch({ type: GET_ACCOUNTS, payload: response.data });
+};
+
 export const createAccount = (bankName, personName) => async dispatch => {
   console.log("calling createAccount");
   const response = await axios.post(
