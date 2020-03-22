@@ -22,6 +22,7 @@ import {
 } from "../../actions/transactionActions";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
+var moment = require("moment");
 
 const CssTextField = withStyles({
   root: {
@@ -43,32 +44,6 @@ const CssTextField = withStyles({
   }
 })(TextField);
 
-function renderRow(props) {
-  const { index, style } = props;
-
-  return (
-    <ListItem style={style}>
-      <ListItemAvatar>
-        <Avatar src={GreenSphere} key={index} />
-      </ListItemAvatar>
-      <ListItemText primary="Single-line item" secondary="$100" />
-    </ListItem>
-  );
-}
-
-function renderRowTransfer(props) {
-  const { index, style } = props;
-
-  return (
-    <ListItem style={style}>
-      <ListItemAvatar>
-        <Avatar src={GreenSphere} key={index} />
-      </ListItemAvatar>
-      <ListItemText primary="Transfer" secondary="$100" />
-    </ListItem>
-  );
-}
-
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -79,7 +54,8 @@ const Operation = ({
   depositMoney,
   errors,
   withdrawMoney,
-  transferMoney
+  transferMoney,
+  transactionsList
 }) => {
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-device-width: 1224px)"
@@ -128,6 +104,42 @@ const Operation = ({
     setAmount("");
   };
 
+  function renderRow(props) {
+    const { index, style } = props;
+
+    return (
+      <ListItem style={style}>
+        <ListItemAvatar>
+          <Avatar src={GreenSphere} key={index} />
+        </ListItemAvatar>
+        <ListItemText
+          primary={
+            !isDesktopOrLaptop
+              ? moment(transactionsList[index].TransactionTime).calendar()
+              : transactionsList[index].TransactionTime.substring(
+                  0,
+                  transactionsList[index].TransactionTime.length - 3
+                )
+          }
+          secondary={transactionsList[index].Amount}
+        />
+      </ListItem>
+    );
+  }
+
+  function renderRowTransfer(props) {
+    const { index, style } = props;
+
+    return (
+      <ListItem style={style}>
+        <ListItemAvatar>
+          <Avatar src={GreenSphere} key={index} />
+        </ListItemAvatar>
+        <ListItemText primary="Transfer" secondary="$100" />
+      </ListItem>
+    );
+  }
+
   return (
     <React.Fragment>
       <div className="row" style={{ maxHeight: "10vh" }}>
@@ -150,8 +162,8 @@ const Operation = ({
             <FixedSizeList
               height={height}
               width={width}
-              itemSize={46}
-              itemCount={20}
+              itemSize={65}
+              itemCount={transactionsList.length}
             >
               {type === "transfer" ? renderRowTransfer : renderRow}
             </FixedSizeList>

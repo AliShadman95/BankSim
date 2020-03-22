@@ -57,8 +57,27 @@ const SmallerStyledButton = withStyles({
 
 function Login({ type, personsList, banksList, accountsList }) {
   let history = useHistory();
-  const [bankOrPerson, setBankOrPerson] = React.useState("");
+  const [bankOrPerson, setBankOrPerson] = React.useState();
   const [openDialog, setOpenDialog] = useState(false);
+
+  useEffect(() => {
+    switch (type) {
+      case "person":
+        if (personsList.length > 0) {
+          setBankOrPerson(personsList[0].name);
+        }
+      case "bank":
+        if (banksList.length > 0) {
+          setBankOrPerson(banksList[0].name);
+        }
+      case "account":
+        if (accountsList.length > 0) {
+          setBankOrPerson(accountsList[0].accountNumber);
+        }
+      case "default":
+        break;
+    }
+  }, [type, accountsList, personsList, banksList]);
 
   const handleLoginClick = () => {
     history.push({

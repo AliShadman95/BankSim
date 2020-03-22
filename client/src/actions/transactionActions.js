@@ -2,9 +2,20 @@ import {
   ADD_TRANSACTION,
   GET_BALANCE_ACCOUNT,
   ADD_ERROR,
-  RESET_ERRORS
+  RESET_ERRORS,
+  GET_TRANSACTIONS
 } from "./types";
 import axios from "axios";
+
+export const getTransactions = accountNumber => async dispatch => {
+  console.log("calling listTransactions");
+  const response = await axios.get(
+    `http://localhost:3005/account/transactions/${accountNumber}`
+  );
+  console.log(response);
+
+  dispatch({ type: GET_TRANSACTIONS, payload: response.data });
+};
 
 export const depositMoney = (accountNumber, fee) => async dispatch => {
   console.log("calling depositMoneey");
@@ -16,7 +27,14 @@ export const depositMoney = (accountNumber, fee) => async dispatch => {
     dispatch({ type: ADD_ERROR, payload: response.data });
   } else {
     dispatch({ type: RESET_ERRORS });
-    dispatch({ type: ADD_TRANSACTION, payload: response.data });
+    dispatch({
+      type: ADD_TRANSACTION,
+      payload: {
+        TransactionTime: response.data.transaction[0].TransactionTime,
+        Amount: response.data.transaction[0].Amount,
+        Code: "deposit"
+      }
+    });
     dispatch({
       type: GET_BALANCE_ACCOUNT,
       payload: response.data.balance[0].balance
@@ -34,7 +52,14 @@ export const withdrawMoney = (accountNumber, fee) => async dispatch => {
     dispatch({ type: ADD_ERROR, payload: response.data });
   } else {
     dispatch({ type: RESET_ERRORS });
-    dispatch({ type: ADD_TRANSACTION, payload: response.data });
+    dispatch({
+      type: ADD_TRANSACTION,
+      payload: {
+        TransactionTime: response.data.transaction[0].TransactionTime,
+        Amount: response.data.transaction[0].Amount,
+        Code: "withdraw"
+      }
+    });
     dispatch({
       type: GET_BALANCE_ACCOUNT,
       payload: response.data.balance[0].balance

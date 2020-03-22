@@ -15,17 +15,18 @@ exports.deposit_money = async (req, res) => {
     const tTypeData = await db.any(
       `INSERT INTO "TransactionType"("Code") VALUES ('deposit') RETURNING id ;`
     );
-    await db.any(
+    const transaction = await db.any(
       `INSERT INTO "Transaction"
      ("TransactionTime","Amount","AccountFromId","TransactionTypeId")
       VALUES ('${moment().format()}','${fee}',(SELECT id FROM "Account"
       WHERE "accountNumber" = '${accountNumber}'),
-     '${tTypeData[0].id}');`
+     '${tTypeData[0].id}') RETURNING "TransactionTime","Amount";`
     );
 
     res.send({
       message: "Money succesfully deposited!",
       balance,
+      transaction,
       error: false
     });
   } catch (error) {
@@ -55,17 +56,18 @@ exports.withdraw_money = async (req, res) => {
     const tTypeData = await db.any(
       `INSERT INTO "TransactionType"("Code") VALUES ('withdraw') RETURNING id ;`
     );
-    await db.any(
+    const transaction = await db.any(
       `INSERT INTO "Transaction"
      ("TransactionTime","Amount","AccountFromId","TransactionTypeId")
       VALUES ('${moment().format()}','${fee}',(SELECT id FROM "Account"
       WHERE "accountNumber" = '${accountNumber}'),
-     '${tTypeData[0].id}');`
+     '${tTypeData[0].id}') RETURNING "TransactionTime","Amount";`
     );
 
     res.send({
       message: "Money succesfuly withdrawn!",
       balance: updatedBalance,
+      transaction,
       error: false
     });
   } catch (error) {
