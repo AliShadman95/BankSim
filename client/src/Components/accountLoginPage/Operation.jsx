@@ -18,7 +18,7 @@ import { connect } from "react-redux";
 import {
   depositMoney,
   withdrawMoney,
-  transferMoney
+  transferMoney,
 } from "../../actions/transactionActions";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -28,20 +28,20 @@ const CssTextField = withStyles({
   root: {
     "& .MuiFormLabel-root": {
       color: "white",
-      fontWeight: "bold"
+      fontWeight: "bold",
     },
     "& .MuiInput-underline:before": {
-      borderBottom: "1px solid #9FBFF5"
+      borderBottom: "1px solid #9FBFF5",
     },
     "& .MuiInputBase-input": {
       color: "#9FBFF5",
-      fontWeight: "bold"
+      fontWeight: "bold",
     },
     "& .MuiFormHelperText-root": {
       color: "white",
-      fontWeight: "bold"
-    }
-  }
+      fontWeight: "bold",
+    },
+  },
 })(TextField);
 
 function Alert(props) {
@@ -55,10 +55,10 @@ const Operation = ({
   errors,
   withdrawMoney,
   transferMoney,
-  transactionsList
+  transactionsList,
 }) => {
   const isDesktopOrLaptop = useMediaQuery({
-    query: "(min-device-width: 1224px)"
+    query: "(min-device-width: 1224px)",
   });
 
   const isTabletOrHigher = useMediaQuery({ query: "(min-width: 768px)" });
@@ -73,11 +73,11 @@ const Operation = ({
     setOpenSnackBar(false);
   };
 
-  const handleChangeAccountTo = event => {
+  const handleChangeAccountTo = (event) => {
     setAccountTo(event.target.value);
   };
 
-  const handleOperationClick = e => {
+  const handleOperationClick = (e) => {
     console.log("inside");
     switch (type) {
       case "deposit":
@@ -199,7 +199,7 @@ const Operation = ({
               value={accountTo}
               onChange={handleChangeAccountTo}
               InputLabelProps={{
-                shrink: true
+                shrink: true,
               }}
               fullWidth
             ></CssTextField>
@@ -218,10 +218,10 @@ const Operation = ({
             id="standard-select-currency"
             label="Amount"
             InputLabelProps={{
-              shrink: true
+              shrink: true,
             }}
             value={amount}
-            onChange={e => setAmount(e.target.value)}
+            onChange={(e) => setAmount(e.target.value)}
             fullWidth
           />
         </div>
@@ -257,10 +257,10 @@ const Operation = ({
   );
 };
 
-const mapStateToProps = state => ({ errors: state.errors.item });
+const mapStateToProps = (state) => ({ errors: state.errors.item });
 
 export default connect(mapStateToProps, {
   depositMoney,
   withdrawMoney,
-  transferMoney
+  transferMoney,
 })(Operation);

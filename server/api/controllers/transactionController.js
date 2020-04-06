@@ -27,7 +27,7 @@ exports.deposit_money = async (req, res) => {
       message: "Money succesfully deposited!",
       balance,
       transaction,
-      error: false
+      error: false,
     });
   } catch (error) {
     console.log(error);
@@ -45,8 +45,13 @@ exports.withdraw_money = async (req, res) => {
       `SELECT balance FROM "Account" 
        WHERE "accountNumber" = '${accountNumber}';`
     );
-    if (fee > parseFloat(balance[0].balance.toString().substr(1)))
+    console.log(balance);
+    if (
+      fee >
+      parseFloat(balance[0].balance.toString().substr(1).replace(/,/g, ""))
+    ) {
       return res.send({ message: "Insufficent money!", error: true });
+    }
 
     let updatedBalance = await db.any(
       `UPDATE "Account" SET balance = balance - '${fee}'
@@ -68,7 +73,7 @@ exports.withdraw_money = async (req, res) => {
       message: "Money succesfuly withdrawn!",
       balance: updatedBalance,
       transaction,
-      error: false
+      error: false,
     });
   } catch (error) {
     console.log(error);
@@ -87,8 +92,12 @@ exports.transfer_money = async (req, res) => {
        WHERE "accountNumber" = '${accountFrom}';`
     );
 
-    if (fee > parseFloat(balance[0].balance.toString().substr(1)))
+    if (
+      fee >
+      parseFloat(balance[0].balance.toString().substr(1).replace(/,/g, ""))
+    ) {
       return res.send({ message: "Insufficent money!", error: true });
+    }
 
     let updatedBalance = await db.any(
       `UPDATE "Account" SET balance = CASE
@@ -116,7 +125,7 @@ exports.transfer_money = async (req, res) => {
       message: "Money succesfuly transfered!",
       balance: updatedBalance,
       transaction,
-      error: false
+      error: false,
     });
   } catch (error) {
     console.log(error);
@@ -136,10 +145,13 @@ exports.list_transactions = async (req, res) => {
        INNER JOIN "TransactionType" as c ON c.id = t."TransactionTypeId"
        WHERE a."accountNumber" = '${accountNumber}' OR b."accountNumber" = '${accountNumber}';`);
 
-    if (tData.length == 0) res.send("No account find!");
-    res.send(tData);
+    if (tData.length == 0) {
+      res.send({ message: "No account find!", error: true });
+    }
+
+    res.send({ data: tData, error: false });
   } catch (error) {
     console.log(error);
-    res.send(error);
+    res.send({ message: error, error: true });
   }
 };
