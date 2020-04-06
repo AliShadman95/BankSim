@@ -31,8 +31,8 @@ const StyledButton = withStyles({
     letterSpacing: "2px",
     lineHeight: "12px",
     borderColor: "rgba(155, 171, 255, 0.3)",
-    whiteSpace: "nowrap"
-  }
+    whiteSpace: "nowrap",
+  },
 })(Button);
 
 function Alert(props) {
@@ -50,10 +50,10 @@ function Create({
   createPerson,
   createAccount,
   pName,
-  errors
+  errors,
 }) {
   const isDesktopOrLaptop = useMediaQuery({
-    query: "(min-device-width: 1224px)"
+    query: "(min-device-width: 1224px)",
   });
   const [openDialog, setOpenDialog] = useState(false);
   const [bankName, setBankName] = useState("");
@@ -92,7 +92,9 @@ function Create({
         break;
       case "account":
         createAccount(bankName, pName);
-        // popup confirming
+        setTimeout(() => {
+          setOpenSnackBar(true);
+        }, 2000);
         break;
       case "default":
         break;
@@ -100,7 +102,7 @@ function Create({
     handleCloseDialog();
   }
 
-  const handleChangeName = event => {
+  const handleChangeName = (event) => {
     switch (type) {
       case "bank":
         setBankName(event.target.value);
@@ -144,7 +146,7 @@ function Create({
               value={bankName}
               onChange={handleChangeName}
               InputLabelProps={{
-                shrink: true
+                shrink: true,
               }}
               helperText="Please select a bank"
             >
@@ -193,14 +195,14 @@ function Create({
   );
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   banksList: state.banks.items,
   accounts: state.accounts.items,
-  errors: state.errors.item
+  errors: state.errors.item,
 });
 
 export default connect(mapStateToProps, {
   createPerson,
   createBank,
-  createAccount
+  createAccount,
 })(Create);
