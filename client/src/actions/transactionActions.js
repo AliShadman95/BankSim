@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   ADD_TRANSACTION,
   GET_BALANCE_ACCOUNT,
@@ -5,14 +6,11 @@ import {
   RESET_ERRORS,
   GET_TRANSACTIONS,
 } from "./types";
-import axios from "axios";
 
 export const getTransactions = (accountNumber) => async (dispatch) => {
-  console.log("calling listTransactions");
   const response = await axios.get(
     `http://localhost:3005/account/transactions/${accountNumber}`
   );
-  console.log("getTrans", response);
   if (response.data.error) {
     dispatch({ type: ADD_ERROR, payload: response.data });
   } else {
@@ -22,11 +20,9 @@ export const getTransactions = (accountNumber) => async (dispatch) => {
 };
 
 export const depositMoney = (accountNumber, fee) => async (dispatch) => {
-  console.log("calling depositMoneey");
   const response = await axios.put(
     `http://localhost:3005/account/deposit/${accountNumber}/${fee}`
   );
-  console.log(response);
   if (response.data.error) {
     dispatch({ type: ADD_ERROR, payload: response.data });
   } else {
@@ -47,11 +43,9 @@ export const depositMoney = (accountNumber, fee) => async (dispatch) => {
 };
 
 export const withdrawMoney = (accountNumber, fee) => async (dispatch) => {
-  console.log("calling withdraw");
   const response = await axios.put(
     `http://localhost:3005/account/withdraw/${accountNumber}/${fee}`
   );
-  console.log(response);
   if (response.data.error) {
     dispatch({ type: ADD_ERROR, payload: response.data });
   } else {
@@ -73,11 +67,9 @@ export const withdrawMoney = (accountNumber, fee) => async (dispatch) => {
 export const transferMoney = (accountFrom, accountTo, fee) => async (
   dispatch
 ) => {
-  console.log("calling transfer");
   const response = await axios.put(
     `http://localhost:3005/account/transfer/${accountFrom}/${accountTo}/${fee}`
   );
-  console.log(response);
   if (response.data.error) {
     dispatch({ type: ADD_ERROR, payload: response.data });
   } else {
