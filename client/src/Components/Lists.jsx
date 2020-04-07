@@ -14,31 +14,31 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import OrangeSphere from "../Media/orange_sphere-312.png";
 import BlueSphere from "../Media/blue-sphere-312.png";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {},
   subheader: {
     color: "#8f9cec",
     fontFamily: "Heebo, Arial !important",
     fontSize: "36px",
     fontWeight: "bold",
-    lineHeight: "47px"
+    lineHeight: "47px",
   },
   nested: {
-    paddingLeft: theme.spacing(4)
+    paddingLeft: theme.spacing(4),
   },
   lightText: {
-    color: "#87BBC1 !important"
+    color: "#87BBC1 !important",
   },
 
   bigAvatar: {
     width: 60,
-    height: 60
+    height: 60,
   },
   subDivider: {
     backgroundColor: "#9BAAFC !important",
     marginRight: "30px !important",
-    marginLeft: "30px !important"
-  }
+    marginLeft: "30px !important",
+  },
 }));
 
 const StyledListItemText = withStyles({
@@ -48,19 +48,12 @@ const StyledListItemText = withStyles({
     fontSize: "16px !important",
     fontWeight: 1000,
     letterSpacing: "0.45px",
-    lineHeight: "25px"
-  }
+    lineHeight: "25px",
+  },
 })(ListItemText);
 
 const Lists = ({ subheader, persons, banks }) => {
-  const [selectedCollapse, setSelectedCollapse] = React.useState(-1);
-
   const classes = useStyles();
-  const handleExpandClick = collapseIndex => {
-    setSelectedCollapse(
-      selectedCollapse === collapseIndex ? -1 : collapseIndex
-    );
-  };
 
   return (
     <List
@@ -79,11 +72,11 @@ const Lists = ({ subheader, persons, banks }) => {
     >
       <Divider variant="middle" component="li" className={classes.subDivider} />
 
-      <List component="div" disablePadding>
+      <div style={{ height: "68vh", overflow: "scroll" }}>
         {persons
           ? persons.map((person, index) => {
               return (
-                <ListItem button onClick={() => handleExpandClick(index)}>
+                <ListItem key={index}>
                   <ListItemAvatar>
                     <Avatar
                       alt="oragesphere"
@@ -96,21 +89,12 @@ const Lists = ({ subheader, persons, banks }) => {
                     className="pl-2"
                     disableTypography
                   />
-
-                  {selectedCollapse === index ? <ExpandLess /> : <ExpandMore />}
-                  <Collapse
-                    in={selectedCollapse === index}
-                    timeout="auto"
-                    unmountOnExit
-                  >
-                    hey
-                  </Collapse>
                 </ListItem>
               );
             })
           : banks.map((bank, index) => {
               return (
-                <ListItem button onClick={() => handleExpandClick(index)}>
+                <ListItem key={index}>
                   <ListItemAvatar>
                     <Avatar
                       alt="oragesphere"
@@ -123,53 +107,10 @@ const Lists = ({ subheader, persons, banks }) => {
                     className="pl-2"
                     disableTypography
                   />
-
-                  {selectedCollapse === index ? <ExpandLess /> : <ExpandMore />}
-                  <Collapse
-                    in={selectedCollapse === index}
-                    timeout="auto"
-                    unmountOnExit
-                  >
-                    hey
-                  </Collapse>
                 </ListItem>
               );
             })}
-      </List>
-
-      {/* <Collapse in={openCollapse} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          {persons
-            ? persons.map((person, index) => {
-                return (
-                  <ListItem key={index} className={classes.nested}>
-                    <ListItemAvatar>
-                      <Avatar alt="blue shpere" src={BlueSphere} />
-                    </ListItemAvatar>
-                    <StyledListItemText
-                      primary={person.name}
-                      className={`${classes.lightText} ${"pl-2"}`}
-                      disableTypography
-                    />
-                  </ListItem>
-                );
-              })
-            : banks.map((bank, index) => {
-                return (
-                  <ListItem key={index} className={classes.nested}>
-                    <ListItemAvatar>
-                      <Avatar alt="blue shpere" src={BlueSphere} />
-                    </ListItemAvatar>
-                    <StyledListItemText
-                      primary={bank.name}
-                      className={`${classes.lightText} ${"pl-2"}`}
-                      disableTypography
-                    />
-                  </ListItem>
-                );
-              })}
-        </List>
-      </Collapse> */}
+      </div>
     </List>
   );
 };

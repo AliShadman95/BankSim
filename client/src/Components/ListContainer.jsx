@@ -58,18 +58,17 @@ function ListContainer({ personsList, banksList }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog} color="secondary">
-            Cancel
+            Close
           </Button>
-          <Button color="primary">Create</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
   );
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   personsList: state.persons.items,
-  banksList: state.banks.items
+  banksList: state.banks.items,
 });
 
 export default connect(mapStateToProps, {})(ListContainer);

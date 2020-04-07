@@ -15,7 +15,7 @@ exports.create_a_bank = async (req, res) => {
     let allBanksData = await db.any(`SELECT code,name FROM "Bank";`);
     // Check if the name given exist
     if (
-      allBanksData.find(bank => {
+      allBanksData.find((bank) => {
         return bank.name == bankName;
       })
     ) {
@@ -26,7 +26,7 @@ exports.create_a_bank = async (req, res) => {
     //Here we loop till we find a bankCode that doesnt exist
     while (shouldSearch) {
       let bankCode = Math.floor(Math.random() * (7000 - 1000 + 1) + 1000);
-      let results = allBanksData.find(bank => {
+      let results = allBanksData.find((bank) => {
         return bank.code == bankCode;
       });
       if (results) {
@@ -36,7 +36,7 @@ exports.create_a_bank = async (req, res) => {
         await db.any(
           `INSERT INTO "Bank"(code,name) VALUES (${bankCode},'${bankName}');`
         );
-        res.send({ message: "Bank created!", error: false });
+        res.send({ message: "Bank created!", code: bankCode, error: false });
       }
     }
   } catch (error) {
@@ -69,8 +69,8 @@ exports.balance_of_bank = async (req, res) => {
     const totalBalance =
       "$" +
       bankData
-        .map(row => {
-          return parseFloat(row.balance.toString().substr(1));
+        .map((row) => {
+          return parseFloat(row.balance.toString().substr(1).replace(/,/g, ""));
         })
         .reduce((a, b) => a + b)
         .toString();

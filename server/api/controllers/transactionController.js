@@ -85,7 +85,27 @@ exports.transfer_money = async (req, res) => {
     let fee = req.params.fee;
     let accountFrom = req.params.accountFrom;
     let accountTo = req.params.accountTo;
-    console.log(fee);
+
+    //Check if accFrom and accTo are the same
+    if (accountFrom === accountTo) {
+      return res.send({
+        message: "Account From and To are the same!",
+        error: true,
+      });
+    }
+
+    //Check if accountTo exist
+
+    let accTo = await db.any(
+      `SELECT EXISTS
+       (SELECT 1 FROM "Account" 
+       WHERE "accountNumber" = '${accountTo}');`
+    );
+
+    if (!accTo[0].exists) {
+      return res.send({ message: "Account To Doesnt exist!", error: true });
+    }
+
     //Check if fee isnt bigger than current balance
     let balance = await db.any(
       `SELECT balance FROM "Account" 

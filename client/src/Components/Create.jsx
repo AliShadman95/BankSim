@@ -83,12 +83,14 @@ function Create({
         setTimeout(() => {
           setOpenSnackBar(true);
         }, 2000);
+        setBankName("");
         break;
       case "person":
         createPerson(personName);
         setTimeout(() => {
           setOpenSnackBar(true);
         }, 2000);
+        setPersonName("");
         break;
       case "account":
         createAccount(bankName, pName);
@@ -188,7 +190,11 @@ function Create({
           onClose={handleCloseSnackBar}
           severity={errors.error ? "error" : "success"}
         >
-          {errors.error ? errors.message : `${type} created successfully!`}
+          {errors.error
+            ? errors.message
+            : `${
+                type.charAt(0).toUpperCase() + type.slice(1)
+              } created successfully!`}
         </Alert>
       </Snackbar>
     </React.Fragment>

@@ -1,23 +1,23 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import { useMediaQuery } from "react-responsive";
 import Logo from "./Logo";
-import Scroll from "react-scroll";
 import Login from "./Login";
 import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
 import PurpleSphere from "../Media/purple-sphere-312.png";
-import Create from "./Create";
 import ListContainer from "./ListContainer";
-const ScrollLink = Scroll.Link;
-
-const useStyles = makeStyles({});
+import { useHistory } from "react-router-dom";
 
 const Navbar = ({ login, bankOrPerson }) => {
   const isDesktopOrLaptop = useMediaQuery({
-    query: "(min-device-width: 1224px)"
+    query: "(min-device-width: 1224px)",
   });
-  const handleLogout = () => {};
+
+  const history = useHistory();
+
+  const handleLogout = () => {
+    history.push("/");
+  };
 
   return (
     <nav
