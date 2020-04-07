@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware, compose } from "redux";
+import thunk from "redux-thunk";
 import Main from "./Components/Main";
 import AccountLoggedIn from "./Components/accountLoginPage/AccountLoggedIn";
 import BankLoggedIn from "./Components/bankLoginPage/BankLoggedIn";
 import PersonLoggedIn from "./Components/personLoginPage/PersonLoggedIn";
-import { Provider } from "react-redux";
-import { createStore, applyMiddleware, compose } from "redux";
-import thunk from "redux-thunk";
 import rootReducer from "./reducers";
-
 import "./App.scss";
+
 const initialState = {};
 
 const middleware = [thunk];
@@ -18,8 +18,10 @@ const store = createStore(
   rootReducer,
   initialState,
   compose(
-    applyMiddleware(...middleware),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    applyMiddleware(
+      ...middleware
+    ) /* ,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() */
   )
 );
 
