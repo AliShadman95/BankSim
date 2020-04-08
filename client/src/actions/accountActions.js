@@ -20,7 +20,12 @@ export const getAccountsFromBank = (bankName) => async (dispatch) => {
     `http://localhost:3005/account/list/bank/${bankName}`
   );
 
-  dispatch({ type: GET_ACCOUNTS, payload: response.data });
+  if (response.data.error) {
+    dispatch({ type: ADD_ERROR, payload: response.data });
+  } else {
+    dispatch({ type: RESET_ERRORS });
+    dispatch({ type: GET_ACCOUNTS, payload: response.data });
+  }
 };
 
 export const getBalanceOfAccount = (accountNumber) => async (dispatch) => {

@@ -45,14 +45,9 @@ function BankHeroLoggedIn({
 
 BankHeroLoggedIn.propTypes = {
   bankName: PropTypes.string.isRequired,
-  totalBalance: PropTypes.string,
   getAccountsFromBank: PropTypes.func.isRequired,
   getBalanceOfBank: PropTypes.func.isRequired,
   accountsList: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
-
-BankHeroLoggedIn.defaultProps = {
-  totalBalance: "",
 };
 
 const mapStateToProps = (state) => ({

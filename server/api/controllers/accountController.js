@@ -27,8 +27,10 @@ exports.list_all_accounts_bank = async (req, res) => {
         INNER JOIN "Bank" as b ON b.id = a."bankId"
         WHERE b.name = '${bankName}';`
     );
-    if (accData.length == 0) return res.send("Bank not found");
-    res.send(accData);
+    if (accData.length == 0) {
+      return res.send({ message: "No accounts on this bank", error: true });
+    }
+    res.send({ data: accData, error: false });
   } catch (error) {
     res.send(error);
   }
@@ -49,7 +51,7 @@ exports.create_an_account = async (req, res) => {
     if (acc[0].count >= 2)
       return res.send({
         message: "This person has already two accounts on this bank",
-        error: true
+        error: true,
       });
 
     // Getting bankcode and concatenate it to a random number
@@ -72,7 +74,7 @@ exports.create_an_account = async (req, res) => {
     res.send({
       message: "Account created!",
       accountNumber: accountNumber[0].accountNumber,
-      error: false
+      error: false,
     });
   } catch (error) {
     console.log(error);

@@ -63,7 +63,7 @@ exports.balance_of_bank = async (req, res) => {
        INNER JOIN "Bank" ON "Account"."bankId" = "Bank".id
        WHERE "Bank".name = '${bankName}';`
     );
-    if (bankData.length == 0) return res.send("No bank found..");
+    if (bankData.length == 0) return res.send("$0.00");
 
     // Summing all balance of the bank
     const totalBalance =
