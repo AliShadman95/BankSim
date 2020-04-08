@@ -46,7 +46,7 @@ export const depositMoney = (accountNumber, fee) => async (dispatch) => {
 
 export const withdrawMoney = (accountNumber, fee) => async (dispatch) => {
   const response = await axios.put(
-    `http://localhost:3005/account/withdraw/${accountNumber}/${fee}`
+    `https://banksim.herokuapp.com/account/withdraw/${accountNumber}/${fee}`
   );
   if (response.data.error) {
     dispatch({ type: ADD_ERROR, payload: response.data });
@@ -70,7 +70,7 @@ export const transferMoney = (accountFrom, accountTo, fee) => async (
   dispatch
 ) => {
   const response = await axios.put(
-    `http://localhost:3005/account/transfer/${accountFrom}/${accountTo}/${fee}`
+    `https://banksim.herokuapp.com/account/transfer/${accountFrom}/${accountTo}/${fee}`
   );
   if (response.data.error) {
     dispatch({ type: ADD_ERROR, payload: response.data });

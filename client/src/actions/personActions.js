@@ -11,7 +11,7 @@ export const getPersons = () => async (dispatch) => {
 
 export const createPerson = (personName) => async (dispatch) => {
   const response = await axios.post(
-    `http://localhost:3005/person/${personName}`
+    `https://banksim.herokuapp.com/person/${personName}`
   );
   if (response.data.error) {
     dispatch({ type: ADD_ERROR, payload: response.data });

@@ -38,7 +38,7 @@ export const getAccountsFromBank = (bankName) => async (dispatch) => {
 
 export const getBalanceOfAccount = (accountNumber) => async (dispatch) => {
   const response = await axios.get(
-    `http://localhost:3005/account/balance/${accountNumber}`
+    `https://banksim.herokuapp.com/account/balance/${accountNumber}`
   );
 
   dispatch({ type: GET_BALANCE_ACCOUNT, payload: response.data });
@@ -46,7 +46,7 @@ export const getBalanceOfAccount = (accountNumber) => async (dispatch) => {
 
 export const createAccount = (bankName, personName) => async (dispatch) => {
   const response = await axios.post(
-    `http://localhost:3005/account/${bankName}/${personName}`
+    `https://banksim.herokuapp.com/account/${bankName}/${personName}`
   );
 
   if (response.data.error) {
