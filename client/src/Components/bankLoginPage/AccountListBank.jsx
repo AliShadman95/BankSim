@@ -1,23 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import Divider from "@material-ui/core/Divider";
-import List from "@material-ui/core/List";
+import PropTypes from "prop-types";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
 import { FixedSizeList } from "react-window";
-import { AwesomeButton } from "react-awesome-button";
 import "react-awesome-button/dist/styles.css";
-import TextField from "@material-ui/core/TextField";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
 import AutoSizer from "react-virtualized-auto-sizer";
-import MenuItem from "@material-ui/core/MenuItem";
-import { useMediaQuery } from "react-responsive";
-
 import GreenSphere from "../../Media/green-sphere-312.png";
 
 function AccountListBank({ bankName, accountsList }) {
   function renderRow(props) {
+    // eslint-disable-next-line react/prop-types
     const { index, style } = props;
 
     return (
@@ -41,7 +36,7 @@ function AccountListBank({ bankName, accountsList }) {
             style={{
               marginBottom: "0px",
               fontSize: "12px",
-              fontWeight: "900"
+              fontWeight: "900",
             }}
           >
             {bankName}
@@ -67,5 +62,10 @@ function AccountListBank({ bankName, accountsList }) {
     </div>
   );
 }
+
+AccountListBank.propTypes = {
+  bankName: PropTypes.string.isRequired,
+  accountsList: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default AccountListBank;

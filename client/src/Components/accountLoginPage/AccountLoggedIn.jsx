@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Element } from "react-scroll";
+import PropTypes from "prop-types";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import AccountHeroLoggedIn from "./AccountHeroLoggedIn";
@@ -8,6 +9,7 @@ import SliderBG from "../../Media/waves-slider-blue-6176.png";
 import { getBanks } from "../../actions/bankActions";
 import { getPersons } from "../../actions/personActions";
 
+// eslint-disable-next-line no-shadow
 function AccountLoggedIn({ location, getBanks, getPersons }) {
   useEffect(() => {
     getPersons();
@@ -30,5 +32,11 @@ function AccountLoggedIn({ location, getBanks, getPersons }) {
     </div>
   );
 }
+
+AccountLoggedIn.propTypes = {
+  location: PropTypes.objectOf(PropTypes.string).isRequired,
+  getBanks: PropTypes.func.isRequired,
+  getPersons: PropTypes.func.isRequired,
+};
 
 export default connect(null, { getPersons, getBanks })(AccountLoggedIn);

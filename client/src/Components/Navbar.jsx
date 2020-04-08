@@ -1,12 +1,13 @@
 import React from "react";
 import { useMediaQuery } from "react-responsive";
-import Logo from "./Logo";
-import Login from "./Login";
 import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
+import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
+import Logo from "./Logo";
+import Login from "./Login";
 import PurpleSphere from "../Media/purple-sphere-312.png";
 import ListContainer from "./ListContainer";
-import { useHistory } from "react-router-dom";
 
 const Navbar = ({ login, bankOrPerson }) => {
   const isDesktopOrLaptop = useMediaQuery({
@@ -21,10 +22,11 @@ const Navbar = ({ login, bankOrPerson }) => {
 
   return (
     <nav
-      className={"navbar navbar-expand-lg site-navbar navbar-light bg-light"}
+      className="navbar navbar-expand-lg site-navbar navbar-light bg-light"
       id="pb-navbar"
     >
       {isDesktopOrLaptop && (
+        // eslint-disable-next-line jsx-a11y/anchor-is-valid
         <a className="navbar-brand ml-md-5 pl-md-5">
           <Logo />
         </a>
@@ -39,7 +41,7 @@ const Navbar = ({ login, bankOrPerson }) => {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon" />
         </button>
 
         <div
@@ -52,7 +54,7 @@ const Navbar = ({ login, bankOrPerson }) => {
             </li>
 
             {!login ? (
-              <React.Fragment>
+              <>
                 <li className="nav-item mr-3">
                   <Login type="bank" />
                 </li>
@@ -60,9 +62,9 @@ const Navbar = ({ login, bankOrPerson }) => {
                 <li className="nav-item">
                   <Login type="person" />
                 </li>
-              </React.Fragment>
+              </>
             ) : (
-              <React.Fragment>
+              <>
                 <li className="nav-item ml-2 mt-1">
                   <Chip
                     color="primary"
@@ -71,13 +73,22 @@ const Navbar = ({ login, bankOrPerson }) => {
                     label={bankOrPerson}
                   />
                 </li>
-              </React.Fragment>
+              </>
             )}
           </ul>
         </div>
       </div>
     </nav>
   );
+};
+
+Navbar.propTypes = {
+  login: PropTypes.bool,
+  bankOrPerson: PropTypes.string.isRequired,
+};
+
+Navbar.defaultProps = {
+  login: false,
 };
 
 export default Navbar;

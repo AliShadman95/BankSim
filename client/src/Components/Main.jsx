@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
-import Navbar from "../Components/Navbar";
 import { Element } from "react-scroll";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import Navbar from "./Navbar";
 import Hero from "./mainPage/Hero";
-import Footer from "../Components/Footer";
+import Footer from "./Footer";
 import HeroBg from "../Media/hero-bg-3840.png";
 import { getBanks } from "../actions/bankActions";
 import { getPersons } from "../actions/personActions";
-import { connect } from "react-redux";
 
+// eslint-disable-next-line no-shadow
 function Main({ getPersons, getBanks }) {
   useEffect(() => {
     getPersons();
@@ -23,5 +25,10 @@ function Main({ getPersons, getBanks }) {
     </div>
   );
 }
+
+Main.propTypes = {
+  getPersons: PropTypes.func.isRequired,
+  getBanks: PropTypes.func.isRequired,
+};
 
 export default connect(null, { getPersons, getBanks })(Main);

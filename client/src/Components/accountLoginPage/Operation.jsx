@@ -1,28 +1,29 @@
+/* eslint-disable no-shadow */
 import React, { useState } from "react";
 import Divider from "@material-ui/core/Divider";
-import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
+import PropTypes from "prop-types";
 import { FixedSizeList } from "react-window";
 import { AwesomeButton } from "react-awesome-button";
 import "react-awesome-button/dist/styles.css";
 import TextField from "@material-ui/core/TextField";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import AutoSizer from "react-virtualized-auto-sizer";
-import MenuItem from "@material-ui/core/MenuItem";
 import { useMediaQuery } from "react-responsive";
-import GreenSphere from "../../Media/green-sphere-312.png";
 import { connect } from "react-redux";
+import MuiAlert from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
+import GreenSphere from "../../Media/green-sphere-312.png";
 import {
   depositMoney,
   withdrawMoney,
   transferMoney,
 } from "../../actions/transactionActions";
-import MuiAlert from "@material-ui/lab/Alert";
-import Snackbar from "@material-ui/core/Snackbar";
-var moment = require("moment");
+
+const moment = require("moment");
 
 const CssTextField = withStyles({
   root: {
@@ -45,6 +46,7 @@ const CssTextField = withStyles({
 })(TextField);
 
 function Alert(props) {
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
@@ -77,8 +79,7 @@ const Operation = ({
     setAccountTo(event.target.value);
   };
 
-  const handleOperationClick = (e) => {
-    console.log("inside");
+  const handleOperationClick = () => {
     switch (type) {
       case "deposit":
         depositMoney(accountNumber, amount);
@@ -98,7 +99,7 @@ const Operation = ({
           setOpenSnackBar(true);
         }, 2000);
         break;
-      case "default":
+      default:
         break;
     }
     setAmount("");
@@ -106,6 +107,7 @@ const Operation = ({
   };
 
   function renderRow(props) {
+    // eslint-disable-next-line react/prop-types
     const { index, style } = props;
 
     return (
@@ -129,6 +131,7 @@ const Operation = ({
   }
 
   function renderRowTransfer(props) {
+    // eslint-disable-next-line react/prop-types
     const { index, style } = props;
 
     return (
@@ -152,7 +155,7 @@ const Operation = ({
   }
 
   return (
-    <React.Fragment>
+    <>
       <div className="row" style={{ maxHeight: "10vh" }}>
         <div className="col-md-12 d-flex flex-column align-items-start pt-3 pl-4">
           <h1>{type.charAt(0).toUpperCase() + type.slice(1)}</h1>
@@ -202,7 +205,7 @@ const Operation = ({
                 shrink: true,
               }}
               fullWidth
-            ></CssTextField>
+            />
           </div>
         </div>
       )}
@@ -246,6 +249,7 @@ const Operation = ({
           onClose={handleCloseSnackBar}
           severity={errors.error ? "error" : "success"}
         >
+          {/* eslint-disable-next-line no-nested-ternary */}
           {errors.error
             ? errors.message.name
               ? errors.message.name
@@ -253,8 +257,18 @@ const Operation = ({
             : `${type.charAt(0).toUpperCase() + type.slice(1)} successfull!`}
         </Alert>
       </Snackbar>
-    </React.Fragment>
+    </>
   );
+};
+
+Operation.propTypes = {
+  type: PropTypes.string.isRequired,
+  accountNumber: PropTypes.string.isRequired,
+  depositMoney: PropTypes.func.isRequired,
+  errors: PropTypes.objectOf(PropTypes.string).isRequired,
+  withdrawMoney: PropTypes.func.isRequired,
+  transferMoney: PropTypes.func.isRequired,
+  transactionsList: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const mapStateToProps = (state) => ({ errors: state.errors.item });

@@ -1,25 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useMediaQuery } from "react-responsive";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import Logo from "../../Media/logo_transparent.png";
 import Create from "../Create";
-import { useMediaQuery } from "react-responsive";
 import Login from "../Login";
 import { getAccountsFromPerson } from "../../actions/accountActions";
-import { connect } from "react-redux";
 
+// eslint-disable-next-line no-shadow
 function PersonHeroLoggedIn({ personName, getAccountsFromPerson }) {
   const isDesktopOrLaptop = useMediaQuery({
-    query: "(min-device-width: 1224px)"
+    query: "(min-device-width: 1224px)",
   });
   const isTabletOrBigger = useMediaQuery({
-    query: "(min-device-width: 768px)"
+    query: "(min-device-width: 768px)",
   });
 
   useEffect(() => {
-    console.log(personName);
     getAccountsFromPerson(personName);
-  }, []);
+  }, [getAccountsFromPerson, personName]);
   return (
-    <React.Fragment>
+    <>
       <section
         className="site-hero "
         id="section-home"
@@ -28,19 +29,20 @@ function PersonHeroLoggedIn({ personName, getAccountsFromPerson }) {
         <div className="container">
           <div className="row justify-content-between">
             <div className="col-md-5 d-flex flex-column pb-5 mb-5 justify-content-center align-items-start  pl-lg-5">
+              {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
               <h1>Welcome {personName}</h1>
               <p className="hero-subtitle">Create an account or login!</p>
               <div
                 className="mt-4 d-flex"
                 style={{
-                  flexWrap: `${isDesktopOrLaptop ? "" : "wrap"}`
+                  flexWrap: `${isDesktopOrLaptop ? "" : "wrap"}`,
                 }}
               >
                 <div
                   className="col-md-6 col-lg-6"
                   style={{
                     paddingLeft: `${isTabletOrBigger ? "0px" : "20vw"}`,
-                    marginBottom: `${isTabletOrBigger ? "0px" : "5vh"}`
+                    marginBottom: `${isTabletOrBigger ? "0px" : "5vh"}`,
                   }}
                 >
                   <Create type="account" pName={personName} />
@@ -49,7 +51,7 @@ function PersonHeroLoggedIn({ personName, getAccountsFromPerson }) {
                   className="col-md-6 col-lg-6 pl-md-3"
                   style={{
                     paddingLeft: `${isTabletOrBigger ? "0px" : "20vw"}`,
-                    marginBottom: `${isTabletOrBigger ? "0px" : "5vh"}`
+                    marginBottom: `${isTabletOrBigger ? "0px" : "5vh"}`,
                   }}
                 >
                   <Login type="account" personName={personName} />
@@ -64,8 +66,13 @@ function PersonHeroLoggedIn({ personName, getAccountsFromPerson }) {
           </div>
         </div>
       </section>
-    </React.Fragment>
+    </>
   );
 }
+
+PersonHeroLoggedIn.propTypes = {
+  personName: PropTypes.string.isRequired,
+  getAccountsFromPerson: PropTypes.func.isRequired,
+};
 
 export default connect(null, { getAccountsFromPerson })(PersonHeroLoggedIn);

@@ -1,18 +1,14 @@
-import React, { useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React from "react";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import List from "@material-ui/core/List";
+import PropTypes from "prop-types";
 import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
 import ListItemText from "@material-ui/core/ListItemText";
-import Collapse from "@material-ui/core/Collapse";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
 import OrangeSphere from "../Media/orange_sphere-312.png";
-import BlueSphere from "../Media/blue-sphere-312.png";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -61,6 +57,7 @@ const Lists = ({ subheader, persons, banks }) => {
       aria-labelledby="nested-list-subheader"
       className={classes.root}
       subheader={
+        // eslint-disable-next-line react/jsx-wrap-multilines
         <ListSubheader
           component="div"
           id="nested-list-subheader"
@@ -76,6 +73,7 @@ const Lists = ({ subheader, persons, banks }) => {
         {persons
           ? persons.map((person, index) => {
               return (
+                // eslint-disable-next-line react/no-array-index-key
                 <ListItem key={index}>
                   <ListItemAvatar>
                     <Avatar
@@ -94,6 +92,7 @@ const Lists = ({ subheader, persons, banks }) => {
             })
           : banks.map((bank, index) => {
               return (
+                // eslint-disable-next-line react/no-array-index-key
                 <ListItem key={index}>
                   <ListItemAvatar>
                     <Avatar
@@ -113,6 +112,17 @@ const Lists = ({ subheader, persons, banks }) => {
       </div>
     </List>
   );
+};
+
+Lists.propTypes = {
+  subheader: PropTypes.string.isRequired,
+  banks: PropTypes.arrayOf(PropTypes.object),
+  persons: PropTypes.arrayOf(PropTypes.object),
+};
+
+Lists.defaultProps = {
+  banks: [],
+  persons: [],
 };
 
 export default Lists;

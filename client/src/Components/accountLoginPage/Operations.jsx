@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
-import Operation from "./Operation";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import Operation from "./Operation";
 import { getTransactions } from "../../actions/transactionActions";
 
+// eslint-disable-next-line no-shadow
 const Operations = ({ accountNumber, transactionsList, getTransactions }) => {
   useEffect(() => {
     getTransactions(accountNumber);
@@ -13,7 +15,7 @@ const Operations = ({ accountNumber, transactionsList, getTransactions }) => {
         <Operation
           type="deposit"
           accountNumber={accountNumber}
-          transactionsList={transactionsList.filter(t => {
+          transactionsList={transactionsList.filter((t) => {
             return t.Code === "deposit";
           })}
         />
@@ -22,7 +24,7 @@ const Operations = ({ accountNumber, transactionsList, getTransactions }) => {
         <Operation
           type="transfer"
           accountNumber={accountNumber}
-          transactionsList={transactionsList.filter(t => {
+          transactionsList={transactionsList.filter((t) => {
             return t.Code === "transfer";
           })}
         />
@@ -31,7 +33,7 @@ const Operations = ({ accountNumber, transactionsList, getTransactions }) => {
         <Operation
           type="withdraw"
           accountNumber={accountNumber}
-          transactionsList={transactionsList.filter(t => {
+          transactionsList={transactionsList.filter((t) => {
             return t.Code === "withdraw";
           })}
         />
@@ -40,8 +42,14 @@ const Operations = ({ accountNumber, transactionsList, getTransactions }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  transactionsList: state.transactions.items
+Operations.propTypes = {
+  accountNumber: PropTypes.string.isRequired,
+  getTransactions: PropTypes.func.isRequired,
+  transactionsList: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  transactionsList: state.transactions.items,
 });
 
 export default connect(mapStateToProps, { getTransactions })(Operations);

@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -6,15 +7,16 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Snackbar from "@material-ui/core/Snackbar";
 import Slide from "@material-ui/core/Slide";
+import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useMediaQuery } from "react-responsive";
 import { connect } from "react-redux";
+import MuiAlert from "@material-ui/lab/Alert";
 import { createBank } from "../actions/bankActions";
 import { createPerson } from "../actions/personActions";
 import { createAccount } from "../actions/accountActions";
-import MuiAlert from "@material-ui/lab/Alert";
 
 const StyledButton = withStyles({
   root: {
@@ -36,10 +38,12 @@ const StyledButton = withStyles({
 })(Button);
 
 function Alert(props) {
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 const Transition = React.forwardRef(function Transition(props, ref) {
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return <Slide direction="right" ref={ref} {...props} />;
 });
 
@@ -98,7 +102,7 @@ function Create({
           setOpenSnackBar(true);
         }, 2000);
         break;
-      case "default":
+      default:
         break;
     }
     handleCloseDialog();
@@ -115,17 +119,18 @@ function Create({
       case "account":
         setBankName(event.target.value);
         break;
-      case "default":
+      default:
         break;
     }
   };
 
   return (
-    <React.Fragment>
+    <>
       <StyledButton
         onClick={handleClickOpenDialog}
         style={{ whiteSpace: `${isDesktopOrLaptop ? "" : "normal"}` }}
       >
+        {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
         Create {type}
       </StyledButton>
       <Dialog
@@ -137,6 +142,7 @@ function Create({
         fullWidth
         maxWidth="xs"
       >
+        {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
         <DialogTitle id="form-dialog-title">Create {type}</DialogTitle>
         <DialogContent>
           {type === "account" ? (
@@ -153,7 +159,10 @@ function Create({
               helperText="Please select a bank"
             >
               {banksList.map((bank, index) => (
-                <MenuItem value={bank.name}>{bank.name}</MenuItem>
+                // eslint-disable-next-line react/no-array-index-key
+                <MenuItem key={index} value={bank.name}>
+                  {bank.name}
+                </MenuItem>
               ))}
             </TextField>
           ) : (
@@ -197,9 +206,19 @@ function Create({
               } created successfully!`}
         </Alert>
       </Snackbar>
-    </React.Fragment>
+    </>
   );
 }
+
+Create.propTypes = {
+  type: PropTypes.string.isRequired,
+  banksList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  createBank: PropTypes.func.isRequired,
+  createPerson: PropTypes.func.isRequired,
+  createAccount: PropTypes.func.isRequired,
+  pName: PropTypes.string.isRequired,
+  errors: PropTypes.objectOf(PropTypes.string).isRequired,
+};
 
 const mapStateToProps = (state) => ({
   banksList: state.banks.items,

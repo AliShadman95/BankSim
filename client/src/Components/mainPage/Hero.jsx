@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
+import { useMediaQuery } from "react-responsive";
 import Logo from "../../Media/logo_transparent.png";
 import Create from "../Create";
-import { useMediaQuery } from "react-responsive";
 
 const Hero = () => {
   const isDesktopOrLaptop = useMediaQuery({
-    query: "(min-device-width: 1224px)"
+    query: "(min-device-width: 1224px)",
   });
   const isTabletOrBigger = useMediaQuery({
-    query: "(min-device-width: 768px)"
+    query: "(min-device-width: 768px)",
   });
   return (
-    <React.Fragment>
+    <>
       <section
         className="site-hero "
         id="section-home"
@@ -28,14 +28,14 @@ const Hero = () => {
               <div
                 className="mt-4 d-flex"
                 style={{
-                  flexWrap: `${isDesktopOrLaptop ? "" : "wrap"}`
+                  flexWrap: `${isDesktopOrLaptop ? "" : "wrap"}`,
                 }}
               >
                 <div
                   className="col-md-6 col-lg-6 "
                   style={{
                     paddingLeft: `${isTabletOrBigger ? "0px" : "20vw"}`,
-                    marginBottom: `${isTabletOrBigger ? "0px" : "5vh"}`
+                    marginBottom: `${isTabletOrBigger ? "0px" : "5vh"}`,
                   }}
                 >
                   <Create type="person" />
@@ -43,7 +43,7 @@ const Hero = () => {
                 <div
                   className="col-md-6 col-lg-6 pl-md-3"
                   style={{
-                    paddingLeft: `${isTabletOrBigger ? "0px" : "20vw"}`
+                    paddingLeft: `${isTabletOrBigger ? "0px" : "20vw"}`,
                   }}
                 >
                   <Create type="bank" />
@@ -58,7 +58,7 @@ const Hero = () => {
           </div>
         </div>
       </section>
-    </React.Fragment>
+    </>
   );
 };
 

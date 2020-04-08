@@ -1,22 +1,25 @@
+/* eslint-disable no-shadow */
 import React, { useEffect } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import AccountListBank from "./AccountListBank";
 import { getAccountsFromBank } from "../../actions/accountActions";
 import { getBalanceOfBank } from "../../actions/bankActions";
-import { connect } from "react-redux";
 
 function BankHeroLoggedIn({
   bankName,
   accountsList,
   getAccountsFromBank,
   getBalanceOfBank,
-  totalBalance
+  totalBalance,
 }) {
   useEffect(() => {
     getAccountsFromBank(bankName);
     getBalanceOfBank(bankName);
-  }, []);
+  }, [bankName, getAccountsFromBank, getBalanceOfBank]);
+
   return (
-    <React.Fragment>
+    <>
       <section
         className="site-hero loggedin-hero"
         id="section-home"
@@ -25,6 +28,7 @@ function BankHeroLoggedIn({
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-md-12 text-center flex-column align-self-start mt-5 pt-5 justify-content-center d-flex align-items-center">
+              {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
               <h1>Welcome {bankName}</h1>
               <p className="hero-subtitle balance">{totalBalance}</p>
               <AccountListBank
@@ -35,16 +39,28 @@ function BankHeroLoggedIn({
           </div>
         </div>
       </section>
-    </React.Fragment>
+    </>
   );
 }
 
-const mapStateToProps = state => ({
+BankHeroLoggedIn.propTypes = {
+  bankName: PropTypes.string.isRequired,
+  totalBalance: PropTypes.string,
+  getAccountsFromBank: PropTypes.func.isRequired,
+  getBalanceOfBank: PropTypes.func.isRequired,
+  accountsList: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
+BankHeroLoggedIn.defaultProps = {
+  totalBalance: "",
+};
+
+const mapStateToProps = (state) => ({
   accountsList: state.accounts.items,
-  totalBalance: state.banks.item
+  totalBalance: state.banks.item,
 });
 
 export default connect(mapStateToProps, {
   getAccountsFromBank,
-  getBalanceOfBank
+  getBalanceOfBank,
 })(BankHeroLoggedIn);

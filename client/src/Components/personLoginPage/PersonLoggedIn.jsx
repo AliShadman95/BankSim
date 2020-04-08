@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
-import Navbar from "../Navbar";
 import { Element } from "react-scroll";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import Navbar from "../Navbar";
 import Footer from "../Footer";
 import PersonBG from "../../Media/microphone.png";
 import PersonHeroLoggedIn from "./PersonHeroLoggedIn";
 import { getBanks } from "../../actions/bankActions";
 import { getPersons } from "../../actions/personActions";
-import { connect } from "react-redux";
 
+// eslint-disable-next-line no-shadow
 function PersonLoggedIn({ location, getPersons, getBanks }) {
   useEffect(() => {
     getPersons();
@@ -23,7 +25,7 @@ function PersonLoggedIn({ location, getPersons, getBanks }) {
         opacity: 0.8,
       }}
     >
-      <Navbar login={true} bankOrPerson={location.state.name} />
+      <Navbar login bankOrPerson={location.state.name} />
       <Element id="home" name="home">
         <PersonHeroLoggedIn personName={location.state.name} />
       </Element>
@@ -31,5 +33,11 @@ function PersonLoggedIn({ location, getPersons, getBanks }) {
     </div>
   );
 }
+
+PersonLoggedIn.propTypes = {
+  location: PropTypes.objectOf(PropTypes.string).isRequired,
+  getPersons: PropTypes.func.isRequired,
+  getBanks: PropTypes.func.isRequired,
+};
 
 export default connect(null, { getPersons, getBanks })(PersonLoggedIn);

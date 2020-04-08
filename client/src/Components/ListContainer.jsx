@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import Box from "@material-ui/core/Box";
-import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 
 import Lists from "./Lists";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return <Slide direction="right" ref={ref} {...props} />;
 });
 
@@ -27,8 +27,15 @@ function ListContainer({ personsList, banksList }) {
   };
 
   return (
-    <React.Fragment>
-      <a className="nav-link active" onClick={handleOpenDialog}>
+    <>
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+      <a
+        role="button"
+        tabIndex="-1"
+        className="nav-link active"
+        onKeyDown={handleOpenDialog}
+        onClick={handleOpenDialog}
+      >
         <span>Banks & Users</span>
       </a>
       <Dialog
@@ -62,9 +69,14 @@ function ListContainer({ personsList, banksList }) {
           </Button>
         </DialogActions>
       </Dialog>
-    </React.Fragment>
+    </>
   );
 }
+
+ListContainer.propTypes = {
+  personsList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  banksList: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 const mapStateToProps = (state) => ({
   personsList: state.persons.items,
