@@ -4,7 +4,7 @@ var cors = require("cors");
 const express = require("express");
 const app = express();
 
-app.use(cors({ origin: "*" }));
+app.use(cors({ origin: "https://determined-leavitt-52e89f.netlify.com/" }));
 
 var http = require("http");
 const PORT = process.env.PORT || 3005;
