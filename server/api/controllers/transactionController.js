@@ -82,72 +82,80 @@ exports.withdraw_money = async (req, res) => {
 };
 exports.transfer_money = async (req, res) => {
   try {
-    let fee = req.params.fee;
-    let accountFrom = req.params.accountFrom;
-    let accountTo = req.params.accountTo;
+        let fee = req.params.fee;
+        let accountFrom = req.params.accountFrom;
+        let accountTo = req.params.accountTo;
 
-    //Check if accFrom and accTo are the same
-    if (accountFrom === accountTo) {
-      return res.send({
-        message: "Account From and To are the same!",
-        error: true,
-      });
-    }
+        //Check if accFrom and accTo are the same
+        if (accountFrom === accountTo) {
+          return res.send({
+            message: "Account From and To are the same!",
+            error: true,
+          });
+        }
 
-    //Check if accountTo exist
+        //Check if fee is 0
+        if (fee =< 0) {
+          return res.send({
+            message: "Can't transfer zero dollars!",
+            error: true,
+          });
+        }
 
-    let accTo = await db.any(
-      `SELECT EXISTS
+        //Check if accountTo exist
+
+        let accTo = await db.any(
+          `SELECT EXISTS
        (SELECT 1 FROM "Account" 
        WHERE "accountNumber" = '${accountTo}');`
-    );
+        );
 
-    if (!accTo[0].exists) {
-      return res.send({ message: "Account To Doesnt exist!", error: true });
-    }
+        if (!accTo[0].exists) {
+          return res.send({ message: "Account To doesnt exist!", error: true });
+        }
 
-    //Check if fee isnt bigger than current balance
-    let balance = await db.any(
-      `SELECT balance FROM "Account" 
+        //Check if fee isnt bigger than current balance
+        let balance = await db.any(
+          `SELECT balance FROM "Account" 
        WHERE "accountNumber" = '${accountFrom}';`
-    );
+        );
 
-    if (
-      fee >
-      parseFloat(balance[0].balance.toString().substr(1).replace(/,/g, ""))
-    ) {
-      return res.send({ message: "Insufficent money!", error: true });
-    }
+        if (
+          fee >
+          parseFloat(balance[0].balance.toString().substr(1).replace(/,/g, ""))
+        ) {
+          return res.send({ message: "Insufficent money!", error: true });
+        }
 
-    let updatedBalance = await db.any(
-      `UPDATE "Account" SET balance = CASE
+        let updatedBalance = await db.any(
+          `UPDATE "Account" SET balance = CASE
        WHEN "accountNumber" = '${accountFrom}' THEN balance - '${fee}'
        WHEN "accountNumber" = '${accountTo}' THEN balance + '${fee}'
        END
        WHERE "accountNumber" IN ('${accountFrom}','${accountTo}' ) RETURNING balance;`
-    );
+        );
 
-    //Inserting in transactions tables
-    const tTypeData = await db.any(
-      `INSERT INTO "TransactionType"("Code") VALUES ('transfer') RETURNING id ;`
-    );
-    const transaction = await db.any(
-      `INSERT INTO "Transaction"
+        //Inserting in transactions tables
+        const tTypeData = await db.any(
+          `INSERT INTO "TransactionType"("Code") VALUES ('transfer') RETURNING id ;`
+        );
+        const transaction = await db.any(
+          `INSERT INTO "Transaction"
      ("TransactionTime","Amount","AccountFromId","AccountToId","TransactionTypeId")
        VALUES ('${moment().format()}','${fee}',(SELECT id FROM "Account"
        WHERE "accountNumber" = '${accountFrom}'),
       (SELECT id FROM "Account"
        WHERE "accountNumber" = '${accountTo}'),
      '${tTypeData[0].id}') RETURNING "TransactionTime","Amount";`
-    );
+        );
 
-    res.send({
-      message: "Money succesfuly transfered!",
-      balance: updatedBalance,
-      transaction,
-      error: false,
-    });
-  } catch (error) {
+        res.send({
+          message: "Money succesfully transfered!",
+          balance: updatedBalance,
+          transaction,
+          error: false,
+        });
+      } catch (error) {
     console.log(error);
     res.send({ message: error, error: true });
   }

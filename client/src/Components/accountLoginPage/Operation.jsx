@@ -216,7 +216,7 @@ const Operation = ({
         }`}
         style={{ maxHeight: "10vh" }}
       >
-        <div className="col-md-6 col-sm-4 pt-1 ">
+        <div className="col-lg-8 col-md-6 col-sm-4 pt-1 ">
           <CssTextField
             id="standard-select-currency3"
             label="Amount"
@@ -228,7 +228,7 @@ const Operation = ({
             fullWidth
           />
         </div>
-        <div className="col-md-6 col-sm-4 pt-2">
+        <div className="col-lg-4 col-md-6 col-sm-4 pt-2">
           <AwesomeButton
             size="small"
             type="primary"
