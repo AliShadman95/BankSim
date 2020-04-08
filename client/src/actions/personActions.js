@@ -2,7 +2,7 @@ import axios from "axios";
 import { GET_PERSONS, ADD_PERSON, ADD_ERROR, RESET_ERRORS } from "./types";
 
 export const getPersons = () => async (dispatch) => {
-  const response = await axios.get(`http://localhost:3005/person`);
+  const response = await axios.get(`https://banksim.herokuapp.com/person`);
   dispatch({ type: GET_PERSONS, payload: response.data });
 };
 

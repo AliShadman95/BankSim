@@ -67,7 +67,7 @@ function Create({
   const [openSnackBar, setOpenSnackBar] = React.useState(false);
 
   useEffect(() => {
-    if (type === "account" && banksList.length > 1) {
+    if (type === "account" && banksList.length > 0) {
       setBankName(banksList[0].name);
     }
   }, [type, banksList]);

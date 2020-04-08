@@ -2,7 +2,7 @@ import axios from "axios";
 import { GET_BANKS, ADD_BANK, ADD_ERROR, GET_BALANCE_BANK } from "./types";
 
 export const getBanks = () => async (dispatch) => {
-  const response = await axios.get(`http://localhost:3005/bank`);
+  const response = await axios.get(`https://banksim.herokuapp.com/bank`);
   dispatch({ type: GET_BANKS, payload: response.data });
 };
 
