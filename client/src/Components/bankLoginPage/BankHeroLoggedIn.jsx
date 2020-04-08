@@ -19,7 +19,6 @@ function BankHeroLoggedIn({
     getBalanceOfBank(bankName);
   }, [bankName, getAccountsFromBank, getBalanceOfBank]);
 
-  console.log(accountsList);
   return (
     <>
       <section
