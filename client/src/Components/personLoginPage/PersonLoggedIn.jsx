@@ -35,7 +35,7 @@ function PersonLoggedIn({ location, getPersons, getBanks }) {
 }
 
 PersonLoggedIn.propTypes = {
-  location: PropTypes.objectOf(PropTypes.string).isRequired,
+  location: PropTypes.shape({ state: PropTypes.object }).isRequired,
   getPersons: PropTypes.func.isRequired,
   getBanks: PropTypes.func.isRequired,
 };

@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-shadow */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -10,7 +11,8 @@ import Slide from "@material-ui/core/Slide";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import Input from "@material-ui/core/Input";
 import { useMediaQuery } from "react-responsive";
 import { connect } from "react-redux";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -63,6 +65,12 @@ function Create({
   const [bankName, setBankName] = useState("");
   const [personName, setPersonName] = useState("");
   const [openSnackBar, setOpenSnackBar] = React.useState(false);
+
+  useEffect(() => {
+    if (type === "account" && banksList.length > 1) {
+      setBankName(banksList[0].name);
+    }
+  }, [type, banksList]);
 
   const handleClickOpenDialog = () => {
     setOpenDialog(true);
@@ -146,25 +154,22 @@ function Create({
         <DialogTitle id="form-dialog-title">Create {type}</DialogTitle>
         <DialogContent>
           {type === "account" ? (
-            <TextField
-              id="standard-select-currency"
-              label="Bank"
-              fullWidth
-              select
+            <Select
+              native
               value={bankName}
               onChange={handleChangeName}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              helperText="Please select a bank"
+              input={<Input id="demo-dialog-native" />}
+              label="Bank"
+              fullWidth
+              disabled={banksList.length < 1}
             >
               {banksList.map((bank, index) => (
                 // eslint-disable-next-line react/no-array-index-key
-                <MenuItem key={index} value={bank.name}>
+                <option key={index} value={bank.name}>
                   {bank.name}
-                </MenuItem>
+                </option>
               ))}
-            </TextField>
+            </Select>
           ) : (
             <TextField
               autoFocus
@@ -216,8 +221,11 @@ Create.propTypes = {
   createBank: PropTypes.func.isRequired,
   createPerson: PropTypes.func.isRequired,
   createAccount: PropTypes.func.isRequired,
-  pName: PropTypes.string.isRequired,
-  errors: PropTypes.objectOf(PropTypes.string).isRequired,
+  pName: PropTypes.string,
+};
+
+Create.defaultProps = {
+  pName: "",
 };
 
 const mapStateToProps = (state) => ({

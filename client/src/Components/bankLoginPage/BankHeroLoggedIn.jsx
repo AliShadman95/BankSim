@@ -11,6 +11,7 @@ function BankHeroLoggedIn({
   accountsList,
   getAccountsFromBank,
   getBalanceOfBank,
+  // eslint-disable-next-line react/prop-types
   totalBalance,
 }) {
   useEffect(() => {

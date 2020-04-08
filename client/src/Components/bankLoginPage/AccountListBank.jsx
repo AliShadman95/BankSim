@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import Divider from "@material-ui/core/Divider";
 import { connect } from "react-redux";
@@ -28,6 +29,7 @@ function AccountListBank({ bankName, accountsList, errors }) {
       </ListItem>
     );
   }
+
   return (
     <div className="col-md-12 operations-box op-center">
       <div className="row" style={{ maxHeight: "15vh" }}>
@@ -71,8 +73,6 @@ function AccountListBank({ bankName, accountsList, errors }) {
 AccountListBank.propTypes = {
   bankName: PropTypes.string.isRequired,
   accountsList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  errors: PropTypes.shape({ message: PropTypes.string, error: PropTypes.bool })
-    .isRequired,
 };
 
 const mapStateToProps = (state) => ({ errors: state.errors.item });

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
@@ -60,22 +61,32 @@ function Login({ type, personsList, banksList, accountsList }) {
   const history = useHistory();
   const [bankOrPerson, setBankOrPerson] = React.useState();
   const [openDialog, setOpenDialog] = useState(false);
+  const [isSelectDisabled, setIsSelectDisabled] = useState(false);
 
   useEffect(() => {
     switch (type) {
       case "person":
-        if (personsList.length > 0) {
+        if (personsList.length > 1) {
+          setIsSelectDisabled(false);
           setBankOrPerson(personsList[0].name);
+        } else {
+          setIsSelectDisabled(true);
         }
         break;
       case "bank":
-        if (banksList.length > 0) {
+        if (banksList.length > 1) {
+          setIsSelectDisabled(false);
           setBankOrPerson(banksList[0].name);
+        } else {
+          setIsSelectDisabled(true);
         }
         break;
       case "account":
-        if (accountsList.length > 0) {
+        if (accountsList.length > 1) {
+          setIsSelectDisabled(false);
           setBankOrPerson(accountsList[0].accountNumber);
+        } else {
+          setIsSelectDisabled(true);
         }
         break;
       default:
@@ -134,6 +145,7 @@ function Login({ type, personsList, banksList, accountsList }) {
             onChange={handleChange}
             input={<Input id="demo-dialog-native" />}
             fullWidth
+            disabled={isSelectDisabled}
           >
             {type === "person" &&
               personsList.map((person, index) => {
@@ -154,10 +166,10 @@ function Login({ type, personsList, banksList, accountsList }) {
                 );
               })}
             {type === "account" &&
-              accountsList.map((account) => {
+              accountsList.map((account, index) => {
                 return (
                   <option
-                    key={account.accountNumber}
+                    key={account.accountNumber || index}
                     value={account.accountNumber}
                   >
                     {account.accountNumber}
@@ -183,7 +195,6 @@ Login.propTypes = {
   type: PropTypes.string.isRequired,
   banksList: PropTypes.arrayOf(PropTypes.object).isRequired,
   personsList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  accountsList: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const mapStateToProps = (state) => ({

@@ -84,11 +84,12 @@ const Navbar = ({ login, bankOrPerson }) => {
 
 Navbar.propTypes = {
   login: PropTypes.bool,
-  bankOrPerson: PropTypes.string.isRequired,
+  bankOrPerson: PropTypes.string,
 };
 
 Navbar.defaultProps = {
   login: false,
+  bankOrPerson: "",
 };
 
 export default Navbar;
