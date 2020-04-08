@@ -4,7 +4,13 @@ var cors = require("cors");
 const express = require("express");
 const app = express();
 
-app.use(cors({ origin: "*" }));
+app.use(
+  cors({
+    origin: "*",
+    allowedHeaders:
+      "Authorization, Access-Control-Allow-Headers, Origin,X-Requested-With,Content-Type,Accept,content-type,application/json",
+  })
+);
 
 var http = require("http");
 const PORT = process.env.PORT || 3005;
