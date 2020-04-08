@@ -5,6 +5,7 @@ import {
   ADD_ERROR,
   RESET_ERRORS,
   GET_TRANSACTIONS,
+  RESET_TRANSACTIONS,
 } from "./types";
 
 export const getTransactions = (accountNumber) => async (dispatch) => {
@@ -13,6 +14,7 @@ export const getTransactions = (accountNumber) => async (dispatch) => {
   );
   if (response.data.error) {
     dispatch({ type: ADD_ERROR, payload: response.data });
+    dispatch({ type: RESET_TRANSACTIONS });
   } else {
     dispatch({ type: RESET_ERRORS });
     dispatch({ type: GET_TRANSACTIONS, payload: response.data.data });

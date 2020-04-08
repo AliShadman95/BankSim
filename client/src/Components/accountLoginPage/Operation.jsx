@@ -218,7 +218,7 @@ const Operation = ({
       >
         <div className="col-md-6 col-sm-4 pt-1 ">
           <CssTextField
-            id="standard-select-currency"
+            id="standard-select-currency3"
             label="Amount"
             InputLabelProps={{
               shrink: true,
@@ -265,7 +265,6 @@ Operation.propTypes = {
   type: PropTypes.string.isRequired,
   accountNumber: PropTypes.string.isRequired,
   depositMoney: PropTypes.func.isRequired,
-  errors: PropTypes.objectOf(PropTypes.string).isRequired,
   withdrawMoney: PropTypes.func.isRequired,
   transferMoney: PropTypes.func.isRequired,
   transactionsList: PropTypes.arrayOf(PropTypes.object).isRequired,

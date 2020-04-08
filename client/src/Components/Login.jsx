@@ -66,7 +66,7 @@ function Login({ type, personsList, banksList, accountsList }) {
   useEffect(() => {
     switch (type) {
       case "person":
-        if (personsList.length > 1) {
+        if (personsList.length > 0) {
           setIsSelectDisabled(false);
           setBankOrPerson(personsList[0].name);
         } else {
@@ -74,7 +74,7 @@ function Login({ type, personsList, banksList, accountsList }) {
         }
         break;
       case "bank":
-        if (banksList.length > 1) {
+        if (banksList.length > 0) {
           setIsSelectDisabled(false);
           setBankOrPerson(banksList[0].name);
         } else {
@@ -82,7 +82,7 @@ function Login({ type, personsList, banksList, accountsList }) {
         }
         break;
       case "account":
-        if (accountsList.length > 1) {
+        if (accountsList.length > 0) {
           setIsSelectDisabled(false);
           setBankOrPerson(accountsList[0].accountNumber);
         } else {

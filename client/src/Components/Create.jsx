@@ -174,7 +174,6 @@ function Create({
             <TextField
               autoFocus
               margin="dense"
-              id="name"
               label={`${type === "bank" ? "Bank name" : "Person name"}`}
               type="text"
               fullWidth

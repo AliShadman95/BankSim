@@ -49,7 +49,7 @@ function AccountListBank({ bankName, accountsList, errors }) {
       </div>
       <Divider variant="middle" className="light-divider" />
       <div className="row mt-2 mb-2" style={{ maxHeight: "40vh" }}>
-        {errors ? (
+        {Object.keys(errors).length > 0 ? (
           <p className="pl-4">{errors.message}</p>
         ) : (
           <AutoSizer>
@@ -72,7 +72,6 @@ function AccountListBank({ bankName, accountsList, errors }) {
 
 AccountListBank.propTypes = {
   bankName: PropTypes.string.isRequired,
-  accountsList: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const mapStateToProps = (state) => ({ errors: state.errors.item });

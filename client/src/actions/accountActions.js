@@ -5,6 +5,7 @@ import {
   ADD_ERROR,
   GET_BALANCE_ACCOUNT,
   RESET_ERRORS,
+  RESET_ACCOUNTS,
 } from "./types";
 
 export const getAccountsFromPerson = (personName) => async (dispatch) => {
@@ -12,7 +13,13 @@ export const getAccountsFromPerson = (personName) => async (dispatch) => {
     `http://localhost:3005/account/list/person/${personName}`
   );
 
-  dispatch({ type: GET_ACCOUNTS, payload: response.data });
+  if (response.data.error) {
+    dispatch({ type: ADD_ERROR, payload: response.data });
+    dispatch({ type: RESET_ACCOUNTS });
+  } else {
+    dispatch({ type: RESET_ERRORS });
+    dispatch({ type: GET_ACCOUNTS, payload: response.data.data });
+  }
 };
 
 export const getAccountsFromBank = (bankName) => async (dispatch) => {
@@ -22,9 +29,10 @@ export const getAccountsFromBank = (bankName) => async (dispatch) => {
 
   if (response.data.error) {
     dispatch({ type: ADD_ERROR, payload: response.data });
+    dispatch({ type: RESET_ACCOUNTS });
   } else {
     dispatch({ type: RESET_ERRORS });
-    dispatch({ type: GET_ACCOUNTS, payload: response.data });
+    dispatch({ type: GET_ACCOUNTS, payload: response.data.data });
   }
 };
 

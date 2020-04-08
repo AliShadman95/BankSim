@@ -19,6 +19,7 @@ function BankHeroLoggedIn({
     getBalanceOfBank(bankName);
   }, [bankName, getAccountsFromBank, getBalanceOfBank]);
 
+  console.log(accountsList);
   return (
     <>
       <section
@@ -48,7 +49,6 @@ BankHeroLoggedIn.propTypes = {
   bankName: PropTypes.string.isRequired,
   getAccountsFromBank: PropTypes.func.isRequired,
   getBalanceOfBank: PropTypes.func.isRequired,
-  accountsList: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const mapStateToProps = (state) => ({

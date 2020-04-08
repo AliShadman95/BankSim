@@ -34,7 +34,6 @@ function AccountHeroLoggedIn({ accountNumber, getBalanceOfAccount, balance }) {
 AccountHeroLoggedIn.propTypes = {
   accountNumber: PropTypes.string.isRequired,
   getBalanceOfAccount: PropTypes.func.isRequired,
-  balance: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({

@@ -70,7 +70,7 @@ const Lists = ({ subheader, persons, banks }) => {
       <Divider variant="middle" component="li" className={classes.subDivider} />
 
       <div style={{ height: "68vh", overflow: "scroll" }}>
-        {persons
+        {persons.length > 0
           ? persons.map((person, index) => {
               return (
                 // eslint-disable-next-line react/no-array-index-key

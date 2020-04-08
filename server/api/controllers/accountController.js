@@ -11,8 +11,10 @@ exports.list_all_accounts_person = async (req, res) => {
        INNER JOIN "Bank" as b ON b.id = a."bankId"
        WHERE p.name = '${personName}';`
     );
-    if (accData.length == 0) return res.send(["Person not found"]);
-    res.send(accData);
+    if (accData.length == 0) {
+      return res.send({ message: "No accounts for this person", error: true });
+    }
+    res.send({ data: accData, error: false });
   } catch (error) {
     res.send(error);
   }
