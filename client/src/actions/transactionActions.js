@@ -10,7 +10,7 @@ import {
 
 export const getTransactions = (accountNumber) => async (dispatch) => {
   const response = await axios.get(
-    `http://localhost:3005/account/transactions/${accountNumber}`
+    `https://banksim.herokuapp.com/account/transactions/${accountNumber}`
   );
   if (response.data.error) {
     dispatch({ type: ADD_ERROR, payload: response.data });
@@ -23,7 +23,7 @@ export const getTransactions = (accountNumber) => async (dispatch) => {
 
 export const depositMoney = (accountNumber, fee) => async (dispatch) => {
   const response = await axios.put(
-    `http://localhost:3005/account/deposit/${accountNumber}/${fee}`
+    `https://banksim.herokuapp.com/account/deposit/${accountNumber}/${fee}`
   );
   if (response.data.error) {
     dispatch({ type: ADD_ERROR, payload: response.data });

@@ -10,7 +10,7 @@ import {
 
 export const getAccountsFromPerson = (personName) => async (dispatch) => {
   const response = await axios.get(
-    `http://localhost:3005/account/list/person/${personName}`
+    `https://banksim.herokuapp.com/account/list/person/${personName}`
   );
 
   if (response.data.error) {
@@ -24,7 +24,7 @@ export const getAccountsFromPerson = (personName) => async (dispatch) => {
 
 export const getAccountsFromBank = (bankName) => async (dispatch) => {
   const response = await axios.get(
-    `http://localhost:3005/account/list/bank/${bankName}`
+    `https://banksim.herokuapp.com/account/list/bank/${bankName}`
   );
 
   if (response.data.error) {
